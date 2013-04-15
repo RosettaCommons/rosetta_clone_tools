@@ -10,7 +10,9 @@ How to clone Rosetta
 
 `
 curl -o get_rosetta.sh https://raw.github.com/RosettaCommons/rosetta_clone_tools/master/get_rosetta.sh
+
 chmod +x get_rosetta.sh
+
 ./get_rosetta.sh rosetta/
 `
 
