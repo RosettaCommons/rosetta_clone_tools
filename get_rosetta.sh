@@ -23,6 +23,69 @@
 #           Tim Jacobs (TimJacobs2@gmail.com)                                 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
+repos=(rosetta rosetta_demos rosetta_tools)
+hooks=(pre-commit post-commit)
+hook_url="https://github.com/RosettaCommons/rosetta_clone_tools/raw/master/git_hooks"
+
+print_repo() 
+{
+    if [ $1 == "Super" ]; then
+        echo "\033[0;32m"'     ___           ___           ___           ___           __         ___         ___      '"\033[0m"
+        echo "\033[0;32m"'    /\  \         /\  \         /\__\         /\__\         /\__\      /\__\       /\  \     '"\033[0m"
+        echo "\033[0;32m"'   /::\  \       /::\  \       /:/ _/_       /:/ _/_       /:/  /     /:/  /      /::\  \    '"\033[0m"
+        echo "\033[0;32m"'  /:/\:\__\     /:/\:\  \     /:/ /\  \     /:/ /\__\     /:/__/     /:/__/      /:/\:\  \   '"\033[0m"
+        echo "\033[0;32m"' /:/ /:/  /    /:/  \:\  \   /:/ /::\  \   /:/ /:/ _/_   /::\  \    /::\  \     /:/ /::\  \  '"\033[0m"
+        echo "\033[0;32m"'/:/_/:/__/___ /:/__/ \:\__\ /:/_/:/\:\__\ /:/_/:/ /\__\ /:/\:\  \  /:/\:\  \   /:/_/:/\:\__\ '"\033[0m"
+        echo "\033[0;32m"'\:\/:::::/  / \:\  \ /:/  / \:\/:/ /:/  / \:\/:/ /:/  / \/__\:\  \ \/__\:\  \  \:\/:/  \/__/ '"\033[0m"
+        echo "\033[0;32m"' \::/~~/~~~~   \:\  /:/  /   \::/ /:/  /   \::/_/:/  /       \:\  \     \:\  \  \::/__/      '"\033[0m"
+        echo "\033[0;32m"'  \:\~~\        \:\/:/  /     \/_/:/  /     \:\/:/  /         \:\  \     \:\  \  \:\  \      '"\033[0m"
+        echo "\033[0;32m"'   \:\__\        \::/  /        /:/  /       \::/  /           \:\__\     \:\__\  \:\__\     '"\033[0m"
+        echo "\033[0;32m"'    \/__/         \/__/         \/__/         \/__/             \/__/      \/__/   \/__/     '"\033[0m"
+
+    elif [ $1 == "rosetta" ]; then
+        echo "\033[0;32m"'      ___           ___                       ___      '"\033[0m"
+        echo "\033[0;32m"'     /\  \         /\  \                     /\  \     '"\033[0m"
+        echo "\033[0;32m"'    |::\  \       /::\  \       ___          \:\  \    '"\033[0m"
+        echo "\033[0;32m"'    |:|:\  \     /:/\:\  \     /\__\          \:\  \   '"\033[0m"
+        echo "\033[0;32m"'  __|:|\:\  \   /:/ /::\  \   /:/__/      _____\:\  \  '"\033[0m"
+        echo "\033[0;32m"' /::::|_\:\__\ /:/_/:/\:\__\ /::\  \     /::::::::\__\ '"\033[0m"
+        echo "\033[0;32m"' \:\~~\  \/__/ \:\/:/  \/__/ \/\:\  \__  \:\~~\~~\/__/ '"\033[0m"
+        echo "\033[0;32m"'  \:\  \        \::/__/       ~~\:\/\__\  \:\  \       '"\033[0m"
+        echo "\033[0;32m"'   \:\  \        \:\  \          \::/  /   \:\  \      '"\033[0m"
+        echo "\033[0;32m"'    \:\__\        \:\__\         /:/  /     \:\__\     '"\033[0m"
+        echo "\033[0;32m"'     \/__/         \/__/         \/__/       \/__/     '"\033[0m"
+
+    elif [ $1 == "rosetta_demos" ]; then
+        echo "\033[0;32m"'                    ___           ___           ___           ___      '"\033[0m"
+        echo "\033[0;32m"'     _____         /\__\         /\  \         /\  \         /\__\     '"\033[0m"
+        echo "\033[0;32m"'    /::\  \       /:/ _/_       |::\  \       /::\  \       /:/ _/_    '"\033[0m"
+        echo "\033[0;32m"'   /:/\:\  \     /:/ /\__\      |:|:\  \     /:/\:\  \     /:/ /\  \   '"\033[0m"
+        echo "\033[0;32m"'  /:/  \:\__\   /:/ /:/ _/_   __|:|\:\  \   /:/  \:\  \   /:/ /::\  \  '"\033[0m"
+        echo "\033[0;32m"' /:/__/ \:|__| /:/_/:/ /\__\ /::::|_\:\__\ /:/__/ \:\__\ /:/_/:/\:\__\ '"\033[0m"
+        echo "\033[0;32m"' \:\  \ /:/  / \:\/:/ /:/  / \:\~~\  \/__/ \:\  \ /:/  / \:\/:/ /:/  / '"\033[0m"
+        echo "\033[0;32m"'  \:\  /:/  /   \::/_/:/  /   \:\  \        \:\  /:/  /   \::/ /:/  /  '"\033[0m"
+        echo "\033[0;32m"'   \:\/:/  /     \:\/:/  /     \:\  \        \:\/:/  /     \/_/:/  /   '"\033[0m"
+        echo "\033[0;32m"'    \::/  /       \::/  /       \:\__\        \::/  /        /:/  /    '"\033[0m"
+        echo "\033[0;32m"'     \/__/         \/__/         \/__/         \/__/         \/__/     '"\033[0m"
+        
+    elif [ $1 == "rosetta_tools" ]; then
+        echo "\033[0;32m"'      ___           ___           ___                           ___      '"\033[0m"
+        echo "\033[0;32m"'     /\__\         /\  \         /\  \                         /\__\     '"\033[0m"
+        echo "\033[0;32m"'    /:/  /        /::\  \       /::\  \     ___               /:/ _/_    '"\033[0m"
+        echo "\033[0;32m"'   /:/__/        /:/\:\  \     /:/\:\  \   /\  \             /:/ /\  \   '"\033[0m"
+        echo "\033[0;32m"'  /::\  \       /:/  \:\  \   /:/  \:\  \  \:\  \     ___   /:/ /::\  \  '"\033[0m"
+        echo "\033[0;32m"' /:/\:\  \     /:/__/ \:\__\ /:/__/ \:\__\  \:\  \   /\__\ /:/_/:/\:\__\ '"\033[0m"
+        echo "\033[0;32m"' \/__\:\  \    \:\  \ /:/  / \:\  \ /:/  /   \:\  \ /:/  / \:\/:/ /:/  / '"\033[0m"
+        echo "\033[0;32m"'      \:\  \    \:\  /:/  /   \:\  /:/  /     \:\  /:/  /   \::/ /:/  /  '"\033[0m"
+        echo "\033[0;32m"'       \:\  \    \:\/:/  /     \:\/:/  /       \:\/:/  /     \/_/:/  /   '"\033[0m"
+        echo "\033[0;32m"'        \:\__\    \::/  /       \::/  /         \::/  /        /:/  /    '"\033[0m"
+        echo "\033[0;32m"'         \/__/     \/__/         \/__/           \/__/         \/__/     '"\033[0m"
+    
+    else
+        echo
+    fi
+}
+
 echo "\033[0;32mConfiguring the Rosetta GitHub repository on your machine.\033[0m"
 echo "\033[0;34mMake sure you have already\033[0m"
 echo "\033[0;34m   1) created your github account\033[0m"
@@ -32,18 +95,10 @@ echo "\033[0;34m      https://help.github.com/articles/generating-ssh-keys\033[0
 echo "\033[0;34m   4) to use HTTPS, follow the instructions for password caching here:\033[0m"
 echo "\033[0;34m      https://help.github.com/articles/set-up-git\033[0m"
 echo
-read -p "Please enter your GitHub username: " username
+read -p "Please enter your GitHub username: " github_user_name
 echo "\n"
 
-if [ -z "$1" ]; then
-	echo "Your GitHub user name must be the first argument to this script!"
-	exit
-fi
-
-github_user_name=$1
-repo="rosetta"
-
-read -p "Where would you like to clone $repo? " path
+read -p "Where would you like to clone Rosetta? " path
 if [ -z $path ]; then
 	path="."
 fi
@@ -69,65 +124,55 @@ while true; do
 	esac
 done
 
-path="$path/"
+if [ ! -d $path/Rosetta ]; then
+    mkdir $path/Rosetta
+fi
+path="$path/Rosetta/"
 
-echo "\033[0;34mCloning Rosetta...\033[0m"
-hash git >/dev/null && /usr/bin/env git clone $url$repo.git $path$repo || {
-echo "Can't clone! It's likely that git is not installed and/or you are cloning over SSH without ssh keys setup.\nSee https://help.github.com/articles/error-permission-denied-publickey for instructions on how to setup SSH keys for github."
-exit
-}
-								
-echo "\033[0;32m"'     ___           ___           ___           ___           __         ___         ___      '"\033[0m"
-echo "\033[0;32m"'    /\  \         /\  \         /\__\         /\__\         /\__\      /\__\       /\  \     '"\033[0m"
-echo "\033[0;32m"'   /::\  \       /::\  \       /:/ _/_       /:/ _/_       /:/  /     /:/  /      /::\  \    '"\033[0m"
-echo "\033[0;32m"'  /:/\:\__\     /:/\:\  \     /:/ /\  \     /:/ /\__\     /:/__/     /:/__/      /:/\:\  \   '"\033[0m"
-echo "\033[0;32m"' /:/ /:/  /    /:/  \:\  \   /:/ /::\  \   /:/ /:/ _/_   /::\  \    /::\  \     /:/ /::\  \  '"\033[0m"
-echo "\033[0;32m"'/:/_/:/__/___ /:/__/ \:\__\ /:/_/:/\:\__\ /:/_/:/ /\__\ /:/\:\  \  /:/\:\  \   /:/_/:/\:\__\ '"\033[0m"
-echo "\033[0;32m"'\:\/:::::/  / \:\  \ /:/  / \:\/:/ /:/  / \:\/:/ /:/  / \/__\:\  \ \/__\:\  \  \:\/:/  \/__/ '"\033[0m"
-echo "\033[0;32m"' \::/~~/~~~~   \:\  /:/  /   \::/ /:/  /   \::/_/:/  /       \:\  \     \:\  \  \::/__/      '"\033[0m"
-echo "\033[0;32m"'  \:\~~\        \:\/:/  /     \/_/:/  /     \:\/:/  /         \:\  \     \:\  \  \:\  \      '"\033[0m"
-echo "\033[0;32m"'   \:\__\        \::/  /        /:/  /       \::/  /           \:\__\     \:\__\  \:\__\     '"\033[0m"
-echo "\033[0;32m"'    \/__/         \/__/         \/__/         \/__/             \/__/      \/__/   \/__/     '"\033[0m"
-
-echo "\n\n \033[0;32m....is now cloned.\033[0m"
+echo "\033[0;34mConfiguring...\033[0m"
+print_repo Super
 
 starting_dir=$PWD
-cd $path/$repo
 
-echo "\033[0;34mDisabling fast-forward merges on master...\033[0m"
-git config branch.master.mergeoptions "--no-ff"
+for repo in "${repos[@]}"; do
+    hash git >/dev/null && /usr/bin/env git clone $url$repo.git $path$repo || {
+        echo "Can't clone! It's likely that git is not installed and/or you are cloning over SSH without ssh keys setup.\nSee https://help.github.com/articles/error-permission-denied-publickey for instructions on how to setup SSH keys for github."
+        exit
+    }
+    
+    print_repo $repo
+    echo "\n\n \033[0;32m....is now cloned.\033[0m"
 
-echo "\033[0;34mConfiguring commit message template...\033[0m"
-git config commit.template .commit_template.txt
+    cd $path/$repo
 
-cd .git/hooks
-url="https://github.com/RosettaCommons/rosetta_clone_tools/raw/master"
-for hook in pre-commit post-commit; do 
-	echo "\033[0;34mConfiguring the $hook hook...\033[0m"
-	curl -L $url/git_hooks/$hook > $hook
-	chmod +x $hook
+    echo "\033[0;34mDisabling fast-forward merges on master...\033[0m"
+    git config branch.master.mergeoptions "--no-ff"
+
+    echo "\033[0;34mConfiguring commit message template...\033[0m"
+    git config commit.template .commit_template.txt
+
+    cd .git/hooks
+    for hook in "${hooks[@]}"; do 
+	    echo "\033[0;34mConfiguring the $hook hook...\033[0m"
+	    curl -L $hook_url/$hook > $hook
+	    chmod +x $hook
+    done
+ 
+    cd ../..
+ 
+    echo "\033[0;34mConfiguring aliases...\033[0m"
+    git config alias.tracked-branch '!sh -c "git checkout -b $1 && git push origin $1:$2/$1 && git branch --set-upstream $1  origin/$2/$1" -'
+    git config alias.personal-tracked-branch '!sh -c "git tracked-branch $1 $github_user_name" -'
+    sed -ie "s/\$github_user_name/$github_user_name/g" .git/config
+
+    git config alias.show-graph "log --graph --abbrev-commit --pretty=oneline"
+
+    echo "\033[0;34mConfiguring git colors...\033[0m"
+    git config color.branch auto
+    git config color.diff auto
+    git config color.interactive auto
+    git config color.status auto
+
+    cd $starting_dir
 done
- 
-cd ../..
- 
-echo "\033[0;34mConfiguring aliases...\033[0m"
-git config alias.tracked-branch '!sh -c "git checkout -b $1 && git push origin $1:$2/$1 && git branch --set-upstream $1  origin/$2/$1" -'
-git config alias.personal-tracked-branch '!sh -c "git tracked-branch $1 $github_user_name" -'
-sed -ie "s/\$github_user_name/$github_user_name/g" .git/config
-
-git config --global alias.show-graph "log --graph --abbrev-commit --pretty=oneline"
-
-echo "\033[0;34mConfiguring git colors...\033[0m"
-git config --global color.branch auto
-git config --global color.diff auto
-git config --global color.interactive auto
-git config --global color.status auto
-
-echo "\033[0;34mCloning submodules...\033[0m"
-git submodule init
-
-echo "\033[0;34mUpdating submodules to correct revision...\033[0m"
-git submodule update
-
-cd $starting_dir
 echo "\033[0;32mDone configuring your Rosetta git repository!\033[0m"
