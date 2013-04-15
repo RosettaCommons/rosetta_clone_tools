@@ -95,7 +95,7 @@ main()
 
 configure_repo()
 {
-    hash git >/dev/null && /usr/bin/env git clone $url$repo.git $path$1 || {
+    hash git >/dev/null && /usr/bin/env git clone $url$1.git $path$1 || {
         echo "Can't clone! It's likely that git is not installed and/or you are cloning over SSH without ssh keys setup."
         echo "See https://help.github.com/articles/error-permission-denied-publickey for instructions on how to setup SSH keys for github."
         exit
