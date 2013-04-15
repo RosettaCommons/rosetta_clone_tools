@@ -22,14 +22,14 @@
 # Author:  Brian D. Weitzner (brian.weitzner@gmail.com)                       #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-echo "Configuring the Rosetta GitHub repository on your machine."
-echo "Make sure you have already"
-echo "   1) created your github account"
-echo "   2) emailed your github user name to Andrew Leaver-Fay (aleaverfay@gmail.com)"
-echo "   3) set up ssh keys to github on your machine following the instructions here:"
-echo "      https://help.github.com/articles/generating-ssh-keys"
-echo "   4) to use HTTPS, follow the instructions for password caching here:"
-echo "      https://help.github.com/articles/set-up-git"
+echo "\033[0;32mConfiguring the Rosetta GitHub repository on your machine.\033[0m"
+echo "\033[0;34mMake sure you have already\033[0m"
+echo "\033[0;34m   1) created your github account\033[0m"
+echo "\033[0;34m   2) emailed your github user name to Andrew Leaver-Fay (aleaverfay@gmail.com)\033[0m"
+echo "\033[0;34m   3) set up ssh keys to github on your machine following the instructions here:\033[0m"
+echo "\033[0;34m      https://help.github.com/articles/generating-ssh-keys\033[0m"
+echo "\033[0;34m   4) to use HTTPS, follow the instructions for password caching here:\033[0m"
+echo "\033[0;34m      https://help.github.com/articles/set-up-git\033[0m"
 echo
 read -p "Please enter your GitHub username: " username
 echo "\n"
