@@ -86,10 +86,11 @@ main()
     starting_dir=$PWD
 
     for repo in "${repos[@]}"; do
-        configure_repo $repo
-        cd $starting_dir
+        (configure_repo $repo
+        cd $starting_dir) &
     done
     
+    wait
     echo "\033[0;32mDone configuring your Rosetta git repository!\033[0m"
 }
 
