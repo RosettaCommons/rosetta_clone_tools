@@ -87,7 +87,9 @@ for hook in pre-commit post-commit; do
 	curl -L $url/git_hooks/$hook > $hook
 	chmod +x $hook
 done
-
+ 
+cd ../..
+ 
 echo "\033[0;34mConfiguring aliases...\033[0m"
 git config alias.tracked-branch '!sh -c "git checkout -b $1 && git push origin $1:$2/$1 && git branch --set-upstream $1  origin/$2/$1" -'
 git config alias.personal-tracked-branch '!sh -c "git tracked-branch $1 $github_user_name" -'
