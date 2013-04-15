@@ -28,12 +28,13 @@ echo "   1) created your github account"
 echo "   2) emailed your github user name to Andrew Leaver-Fay (aleaverfay@gmail.com)"
 echo "   3) set up ssh keys to github on your machine following the instructions here:"
 echo "      https://help.github.com/articles/generating-ssh-keys"
+echo "   4) if you would perfer to use HTTPS, follow the instructions for password caching here:
+			https://help.github.com/articles/set-up-git"
 echo
 read -p "Please enter your GitHub username: " username
-read -s -p "Please enter your GitHub password: " password
 echo "\n"
 
 # Pick a silly filename that had better not clobber something in your cwd.
 tmp=$(date +%Y%m%d%H%M)
-url=https://github.com/RosettaCommons/rosetta_tools/raw/master
-curl -u $username:$password -L $url/configure_rosetta_repo.sh > $tmp && sh $tmp $username $password && rm $tmp
+url=https://github.com/RosettaCommons/rosetta_clone_tools/raw/master
+curl -u $username:$password -L $url/configure_rosetta_repo.sh > $tmp && sh $tmp $username && rm $tmp

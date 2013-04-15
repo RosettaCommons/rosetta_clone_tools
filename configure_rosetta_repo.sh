@@ -25,7 +25,6 @@ if [ -z "$2" ]; then
 fi
 
 github_user_name=$1
-github_password=$2
 repo="rosetta"
 
 read -p "Where would you like to clone $repo? " path
@@ -49,7 +48,7 @@ while true; do
 	read -p "Would you like to clone over ssh (s) or https (h) - Note that ssh keys are required for cloning over ssh (Default: ssh)? " protocol
 	case $protocol in
 		[Ss] | [Ss][Ss][Hh] | "" ) url=git@github.com:RosettaCommons/; break;;
-		[Hh] | [Hh][Tt][Tt][Pp][Ss] ) url=https://$github_user_name:$github_password@github.com/RosettaCommons/; break;;
+		[Hh] | [Hh][Tt][Tt][Pp][Ss] ) url=https://$github_user_name@github.com/RosettaCommons/; break;;
 	*) echo "Please answer ssh (s) or https (h).";;
 	esac
 done
@@ -86,10 +85,10 @@ echo "\033[0;34mConfiguring commit message template...\033[0m"
 git config commit.template .commit_template.txt
 
 cd .git/hooks
-url="https://github.com/RosettaCommons/rosetta_tools/raw/master"
+url="https://github.com/RosettaCommons/rosetta_clone_tools/raw/master"
 for hook in pre-commit post-commit; do 
 	echo "\033[0;34mConfiguring the $hook hook...\033[0m"
-	curl -u $github_user_name:$github_password -L $url/git_hooks/$hook > $hook
+	curl -u $github_user_name -L $url/git_hooks/$hook > $hook
 	chmod +x $hook
 done
 
