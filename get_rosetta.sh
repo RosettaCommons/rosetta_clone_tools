@@ -23,9 +23,117 @@
 #           Tim Jacobs (TimJacobs2@gmail.com)                                 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-repos=(rosetta rosetta_demos rosetta_tools)
+# Global data
 hooks=(pre-commit post-commit)
 hook_url="https://github.com/RosettaCommons/rosetta_clone_tools/raw/master/git_hooks"
+
+# If you'd only like one or two of the repositories, you can specify which one(s)
+# on the command line.  Otherwise, all three will be cloned.
+if [ -z $1 ]; then
+    repos=(rosetta rosetta_demos rosetta_tools)
+else
+    repos=("$@")
+fi
+
+main()
+{
+    echo "\033[0;32mConfiguring the Rosetta GitHub repository on your machine.\033[0m"
+    echo "\033[0;34mMake sure you have already\033[0m"
+    echo "\033[0;34m   1) created your github account\033[0m"
+    echo "\033[0;34m   2) emailed your github user name to Andrew Leaver-Fay (aleaverfay@gmail.com)\033[0m"
+    echo "\033[0;34m   3) set up ssh keys to github on your machine following the instructions here:\033[0m"
+    echo "\033[0;34m      https://help.github.com/articles/generating-ssh-keys\033[0m"
+    echo "\033[0;34m   4) to use HTTPS, follow the instructions for password caching here:\033[0m"
+    echo "\033[0;34m      https://help.github.com/articles/set-up-git\033[0m"
+    echo
+    read -p "Please enter your GitHub username: " github_user_name
+    echo "\n"
+
+    read -p "Where would you like to clone Rosetta? " path
+    if [ -z $path ]; then
+        path="."
+    fi
+
+    if [ ! -d $path ]; then
+        echo "\033[0;33m'$path' does not exist!\033[0m You'll need to create '$path' if you want to install rosetta there."
+        while true; do
+            read -p "Would you like to create this directory now? " yn
+            case $yn in
+                [Yy] | [Yy][Ee][Ss] ) mkdir $path; break;;
+                [Nn] | [Nn][Oo] ) exit;;
+            * ) echo "Please answer yes (y) or no (n).";;
+            esac
+        done
+    fi  
+
+    while true; do
+        read -p "Would you like to clone over ssh (s) or https (h) - Note that ssh keys are required for cloning over ssh (Default: ssh)? " protocol
+        case $protocol in
+            [Ss] | [Ss][Ss][Hh] | "" ) url=git@github.com:RosettaCommons/; break;;
+            [Hh] | [Hh][Tt][Tt][Pp][Ss] ) url=https://$github_user_name@github.com/RosettaCommons/; break;;
+        *) echo "Please answer ssh (s) or https (h).";;
+        esac
+    done
+
+    if [ ! -d $path/Rosetta ]; then
+        mkdir $path/Rosetta
+    fi
+    path="$path/Rosetta/"
+
+    echo "\033[0;34mConfiguring...\033[0m"
+    print_repo Super
+
+    starting_dir=$PWD
+
+    for repo in "${repos[@]}"; do
+        configure_repo $repo
+        cd $starting_dir
+    done
+    
+    echo "\033[0;32mDone configuring your Rosetta git repository!\033[0m"
+}
+
+configure_repo()
+{
+    hash git >/dev/null && /usr/bin/env git clone $url$repo.git $path$1 || {
+        echo "Can't clone! It's likely that git is not installed and/or you are cloning over SSH without ssh keys setup."
+        echo "See https://help.github.com/articles/error-permission-denied-publickey for instructions on how to setup SSH keys for github."
+        exit
+    }
+
+    print_repo $1
+    echo "\n\n \033[0;32m....is now cloned.\033[0m"
+
+    cd $path/$1
+
+    echo "\033[0;34mDisabling fast-forward merges on master...\033[0m"
+    git config branch.master.mergeoptions "--no-ff"
+
+    echo "\033[0;34mConfiguring commit message template...\033[0m"
+    git config commit.template .commit_template.txt
+
+    cd .git/hooks
+    for hook in "${hooks[@]}"; do 
+        echo "\033[0;34mConfiguring the $hook hook...\033[0m"
+        curl -L $hook_url/$hook > $hook
+        chmod +x $hook
+    done
+
+    cd ../..
+
+    echo "\033[0;34mConfiguring aliases...\033[0m"
+    git config alias.tracked-branch '!sh -c "git checkout -b $1 && git push origin $1:$2/$1 && git branch --set-upstream $1  origin/$2/$1" -'
+    git config alias.personal-tracked-branch '!sh -c "git tracked-branch $1 $github_user_name" -'
+    sed -ie "s/\$github_user_name/$github_user_name/g" .git/config
+
+    git config alias.show-graph "log --graph --abbrev-commit --pretty=oneline"
+
+    echo "\033[0;34mConfiguring git colors...\033[0m"
+    git config color.branch auto
+    git config color.diff auto
+    git config color.interactive auto
+    git config color.status auto
+}
 
 print_repo() 
 {
@@ -81,98 +189,9 @@ print_repo()
         echo "\033[0;32m"'        \:\__\    \::/  /       \::/  /         \::/  /        /:/  /    '"\033[0m"
         echo "\033[0;32m"'         \/__/     \/__/         \/__/           \/__/         \/__/     '"\033[0m"
     
-    else
-        echo
     fi
+
+    echo
 }
 
-echo "\033[0;32mConfiguring the Rosetta GitHub repository on your machine.\033[0m"
-echo "\033[0;34mMake sure you have already\033[0m"
-echo "\033[0;34m   1) created your github account\033[0m"
-echo "\033[0;34m   2) emailed your github user name to Andrew Leaver-Fay (aleaverfay@gmail.com)\033[0m"
-echo "\033[0;34m   3) set up ssh keys to github on your machine following the instructions here:\033[0m"
-echo "\033[0;34m      https://help.github.com/articles/generating-ssh-keys\033[0m"
-echo "\033[0;34m   4) to use HTTPS, follow the instructions for password caching here:\033[0m"
-echo "\033[0;34m      https://help.github.com/articles/set-up-git\033[0m"
-echo
-read -p "Please enter your GitHub username: " github_user_name
-echo "\n"
-
-read -p "Where would you like to clone Rosetta? " path
-if [ -z $path ]; then
-	path="."
-fi
-
-if [ ! -d $path ]; then
-	echo "\033[0;33m'$path' does not exist!\033[0m You'll need to create '$path' if you want to install rosetta there."
-	while true; do
-		read -p "Would you like to create this directory now? " yn
-		case $yn in
-			[Yy] | [Yy][Ee][Ss] ) mkdir $path; break;;
-			[Nn] | [Nn][Oo] ) exit;;
-		* ) echo "Please answer yes (y) or no (n).";;
-		esac
-	done
-fi  
-
-while true; do
-	read -p "Would you like to clone over ssh (s) or https (h) - Note that ssh keys are required for cloning over ssh (Default: ssh)? " protocol
-	case $protocol in
-		[Ss] | [Ss][Ss][Hh] | "" ) url=git@github.com:RosettaCommons/; break;;
-		[Hh] | [Hh][Tt][Tt][Pp][Ss] ) url=https://$github_user_name@github.com/RosettaCommons/; break;;
-	*) echo "Please answer ssh (s) or https (h).";;
-	esac
-done
-
-if [ ! -d $path/Rosetta ]; then
-    mkdir $path/Rosetta
-fi
-path="$path/Rosetta/"
-
-echo "\033[0;34mConfiguring...\033[0m"
-print_repo Super
-
-starting_dir=$PWD
-
-for repo in "${repos[@]}"; do
-    hash git >/dev/null && /usr/bin/env git clone $url$repo.git $path$repo || {
-        echo "Can't clone! It's likely that git is not installed and/or you are cloning over SSH without ssh keys setup.\nSee https://help.github.com/articles/error-permission-denied-publickey for instructions on how to setup SSH keys for github."
-        exit
-    }
-    
-    print_repo $repo
-    echo "\n\n \033[0;32m....is now cloned.\033[0m"
-
-    cd $path/$repo
-
-    echo "\033[0;34mDisabling fast-forward merges on master...\033[0m"
-    git config branch.master.mergeoptions "--no-ff"
-
-    echo "\033[0;34mConfiguring commit message template...\033[0m"
-    git config commit.template .commit_template.txt
-
-    cd .git/hooks
-    for hook in "${hooks[@]}"; do 
-	    echo "\033[0;34mConfiguring the $hook hook...\033[0m"
-	    curl -L $hook_url/$hook > $hook
-	    chmod +x $hook
-    done
- 
-    cd ../..
- 
-    echo "\033[0;34mConfiguring aliases...\033[0m"
-    git config alias.tracked-branch '!sh -c "git checkout -b $1 && git push origin $1:$2/$1 && git branch --set-upstream $1  origin/$2/$1" -'
-    git config alias.personal-tracked-branch '!sh -c "git tracked-branch $1 $github_user_name" -'
-    sed -ie "s/\$github_user_name/$github_user_name/g" .git/config
-
-    git config alias.show-graph "log --graph --abbrev-commit --pretty=oneline"
-
-    echo "\033[0;34mConfiguring git colors...\033[0m"
-    git config color.branch auto
-    git config color.diff auto
-    git config color.interactive auto
-    git config color.status auto
-
-    cd $starting_dir
-done
-echo "\033[0;32mDone configuring your Rosetta git repository!\033[0m"
+main
