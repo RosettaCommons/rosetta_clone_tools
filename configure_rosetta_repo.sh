@@ -84,7 +84,7 @@ cd .git/hooks
 url="https://github.com/RosettaCommons/rosetta_clone_tools/raw/master"
 for hook in pre-commit post-commit; do 
 	echo "\033[0;34mConfiguring the $hook hook...\033[0m"
-	curl -u $github_user_name -L $url/git_hooks/$hook > $hook
+	curl -L $url/git_hooks/$hook > $hook
 	chmod +x $hook
 done
 
