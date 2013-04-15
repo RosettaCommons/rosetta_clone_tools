@@ -28,7 +28,7 @@ echo "   1) created your github account"
 echo "   2) emailed your github user name to Andrew Leaver-Fay (aleaverfay@gmail.com)"
 echo "   3) set up ssh keys to github on your machine following the instructions here:"
 echo "      https://help.github.com/articles/generating-ssh-keys"
-echo "   4) if you would perfer to use HTTPS, follow the instructions for password caching here:
+echo "   4) to use HTTPS, follow the instructions for password caching here:
 			https://help.github.com/articles/set-up-git"
 echo
 read -p "Please enter your GitHub username: " username

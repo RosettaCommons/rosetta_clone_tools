@@ -20,10 +20,6 @@ if [ -z "$1" ]; then
 	exit
 fi
 
-if [ -z "$2" ]; then
-    echo "Your GitHub password must be the second argument to this script!"
-fi
-
 github_user_name=$1
 repo="rosetta"
 

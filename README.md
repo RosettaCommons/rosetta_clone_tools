@@ -11,8 +11,8 @@ How to clone Rosetta
 ```
 curl -o get_rosetta.sh https://raw.github.com/RosettaCommons/rosetta_clone_tools/master/get_rosetta.sh
 chmod +x get_rosetta.sh
-./get_rosetta.sh rosetta/
+./get_rosetta.sh
 ```
 
 
-will clone rosetta into a new directory called 'rosetta/'  You can clone into any directory this way. 
+will clone rosetta and set it up.  Follow all instructions when prompted by the script
