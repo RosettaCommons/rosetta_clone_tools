@@ -1,0 +1,43 @@
+#!/bin/bash 
+
+# This script is run before a git-commit.  It is executed every time 'git commit' is executed
+# Currently, this script checks for large incoming files and prompts the user for confirmation
+# if additional precommit functionality is requested, it should be added to this script.
+#
+# non-zero status exits will abort the commit, status of zero will continue.
+# This script is inserted in the .git/hooks directory of repositories setup with
+# configure_rosetta_repo.sh
+
+os_type=`uname`
+
+files_modified=`git diff-index --cached --name-only HEAD`
+
+large_files=false
+for current_file in $files_modified
+do
+    #the stat command is different in linux and os x because the universe is a terrible place
+    
+    file_size=0
+    if [ $os_type == "Linux" ]; then
+        file_size=`stat -c "%s" $current_file`
+    elif [ $os_type == "Darwin" ]; then
+        file_size=`stat -f "%z" $current_file`
+    fi
+    if [ $file_size -gt 2000000 ]; then
+        echo "Warning: $current_file is larger than 2mb"
+        large_files=true
+    fi
+done
+
+if $large_files; then
+    echo "You are committing one or more large files"
+    read -p "Would you like to make this commit? [y/N] " -n 1 -r < /dev/tty
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo ""
+        echo "Cancelling commit"
+        exit 1
+    fi
+fi
+
+exit 0
+    

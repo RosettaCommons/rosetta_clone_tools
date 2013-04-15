@@ -1,0 +1,42 @@
+#!/bin/bash 
+
+# This script is run after a git-commit.  It is executed every time 'git commit' is executed
+# Currently, this script checks the status of the current branch and prompts
+# the user to track their branch if it is untracked and to push if >10 unpushed commits
+# exist.
+# if additional precommit functionality is requested, it should be added to this script.
+#
+# This script is inserted in the .git/hooks directory of repositories setup with
+# configure_rosetta_repo.sh
+
+#is the current branch tracked?
+git_upstream=`git rev-parse --symbolic-full-name HEAD@{u} 2> /dev/null`
+upstream_status=$?
+branch_name=`git rev-parse --abbrev-ref HEAD`
+if [ ! $upstream_status -eq 0 ]; then
+    echo ""
+    echo "**********************************************************"
+    echo "Warning: the current branch is untracked by the remote"
+    echo "You should push this branch if you have not done so"
+    echo "With the following command:"
+    echo ""
+    echo "git push -u origin $branch_name"
+    echo "if this branch has already bin pushed, enable tracking with"
+    echo ""
+    echo "git branch --set-upstream $branch_name origin/$branch_name"
+    echo "***********************************************************"
+    echo ""
+else
+    unpushed_count=`git log --oneline $git_upstream..$branch_name |wc -l |tr -d ' '`
+    if [ $unpushed_count -gt 10 ]; then
+        echo ""
+        echo "*************************************************************"
+        echo "Warning: You have $unpushed_count commits that you haven't pushed yet."
+        echo "It's important to frequently push your commits."
+        echo "Consider doing so now with the following command:"
+        echo ""
+        echo "git push origin $branch_name"
+        echo "*************************************************************"
+        echo ""
+    fi
+fi
