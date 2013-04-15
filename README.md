@@ -8,11 +8,11 @@ get_rosetta.sh is a script which will download configure_rosetta_repo_.sh, and r
 How to clone Rosetta
 --------------------
 
-`curl -o get_rosetta.sh https://raw.github.com/RosettaCommons/rosetta_clone_tools/master/get_rosetta.sh`
-
-`chmod +x get_rosetta.sh`
-
-`./get_rosetta.sh rosetta/`
+```
+curl -o get_rosetta.sh https://raw.github.com/RosettaCommons/rosetta_clone_tools/master/get_rosetta.sh
+chmod +x get_rosetta.sh
+./get_rosetta.sh rosetta/
+```
 
 
 will clone rosetta into a new directory called 'rosetta/'  You can clone into any directory this way. 
