@@ -103,6 +103,12 @@ git config --global color.diff auto
 git config --global color.interactive auto
 git config --global color.status auto
 
+echo "\033[0;34mCloning submodules...\033[0m"
+git submodule init
+
+echo "\033[0;34mUpdating submodules to correct revision...\033[0m"
+git submodule update
+
 cd $starting_dir
 echo "\033[0;32mDone configuring your Rosetta git repository!\033[0m"
 echo "\033[0;32mRemember to check out rosetta_tools and rosetta_demos repositories!\033[0m"
