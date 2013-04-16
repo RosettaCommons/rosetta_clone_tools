@@ -67,7 +67,7 @@ main()
     if [ ! -d $path ]; then
         color-echo  "\033[0;33m'$path' does not exist!\033[0m You'll need to create '$path' if you want to install rosetta there."
         while true; do
-            read -p "Would you like to create this directory now? " yn
+            read -p "Would you like to create this directory now [y/n]? " yn
             case $yn in
                 [Yy] | [Yy][Ee][Ss] ) mkdir $path; break;;
                 [Nn] | [Nn][Oo] ) exit;;
