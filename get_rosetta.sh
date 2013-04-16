@@ -21,6 +21,7 @@
 #                                                                             #
 # Authors:  Brian D. Weitzner (brian.weitzner@gmail.com)                      #
 #           Tim Jacobs (TimJacobs2@gmail.com)                                 #
+#           Sam DeLuca (sam@decarboxy.com)                                    #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Global data
