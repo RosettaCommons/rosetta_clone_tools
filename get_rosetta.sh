@@ -40,11 +40,8 @@ os_type=`uname`
 
 alias color-echo="echo"
 if [ $os_type == "Linux" ]; then
-	alias color-echo="echo -e"
-elif [ $os_type == "Darwin" ]; then
-    alias color-echo="echo"
+    alias color-echo="echo -e"
 fi
-	
 
 main()
 {
