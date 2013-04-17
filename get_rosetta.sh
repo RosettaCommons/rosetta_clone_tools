@@ -36,12 +36,15 @@ else
     repos=("$@")
 fi
 
+# Ensure the output is colorized to make it a little easier to read
 os_type=`uname`
-
 alias color-echo="echo"
 if [ $os_type == "Linux" ]; then
     alias color-echo="echo -e"
 fi
+
+# Prevent git from using a graphical password prompt
+unset SSH_ASKPASS
 
 main()
 {
