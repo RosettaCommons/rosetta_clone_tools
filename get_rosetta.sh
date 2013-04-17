@@ -12,10 +12,10 @@
 #          them to play nicely with how our community is organized.           #
 #                                                                             #
 # Note: Before you begin,                                                     #
-#       1) Create a github account and tell Andrew Leaver-Fay                 #
-#          (aleaverfay@gmail.com) your github user name so that he can        #
+#       1) Create a GitHub account and tell Andrew Leaver-Fay                 #
+#          (aleaverfay@gmail.com) your GitHub user name so that he can        #
 #          add you to the RosettaCommons account, and                         #
-#       2) set up ssh keys with github following the                          #
+#       2) Set up SSH keys with GitHub following the                          #
 #          instructions here                                                  #
 #          https://help.github.com/articles/generating-ssh-keys               #
 #                                                                             #
@@ -50,9 +50,9 @@ main()
 {
     color-echo  "\033[0;32mConfiguring the Rosetta GitHub repository on your machine.\033[0m"
     color-echo  "\033[0;34mMake sure you have already\033[0m"
-    color-echo  "\033[0;34m   1) created your github account\033[0m"
-    color-echo  "\033[0;34m   2) emailed your github user name to Andrew Leaver-Fay (aleaverfay@gmail.com)\033[0m"
-    color-echo  "\033[0;34m   3) set up ssh keys to github on your machine following the instructions here:\033[0m"
+    color-echo  "\033[0;34m   1) created your GitHub account\033[0m"
+    color-echo  "\033[0;34m   2) emailed your GitHub user name to Andrew Leaver-Fay (aleaverfay@gmail.com)\033[0m"
+    color-echo  "\033[0;34m   3) Set up SSH keys to GitHub on your machine following the instructions here:\033[0m"
     color-echo  "\033[0;34m      https://help.github.com/articles/generating-ssh-keys\033[0m"
     color-echo  "\033[0;34m   4) to use HTTPS, follow the instructions for password caching here:\033[0m"
     color-echo  "\033[0;34m      https://help.github.com/articles/set-up-git\033[0m"
@@ -78,11 +78,11 @@ main()
     fi  
 
     while true; do
-        read -p "Would you like to clone over ssh (s) or https (h) - Note that ssh keys are required for cloning over ssh (Default: ssh)? " protocol
+        read -p "Would you like to clone over SSH (s) or HTTPS (h) - Note that SSH keys are required for cloning over SSH (Default: SSH)? " protocol
         case $protocol in
             [Ss] | [Ss][Ss][Hh] | "" ) url=git@github.com:RosettaCommons/; break;;
             [Hh] | [Hh][Tt][Tt][Pp][Ss] ) url=https://$github_user_name@github.com/RosettaCommons/; break;;
-        *) color-echo  "Please answer ssh (s) or https (h).";;
+        *) color-echo  "Please answer SSH (s) or HTTPS (h).";;
         esac
     done
 
@@ -108,8 +108,8 @@ main()
 configure_repo()
 {
     hash git >/dev/null && /usr/bin/env git clone $url$1.git $path$1 || {
-        color-echo  "Can't clone! It's likely that git is not installed and/or you are cloning over SSH without ssh keys setup."
-        color-echo  "See https://help.github.com/articles/error-permission-denied-publickey for instructions on how to setup SSH keys for github."
+        color-echo  "Can't clone! It's likely that git is not installed and/or you are cloning over SSH without SSH keys setup."
+        color-echo  "See https://help.github.com/articles/error-permission-denied-publickey for instructions on how to setup SSH keys for GitHub."
         exit
     }
 
