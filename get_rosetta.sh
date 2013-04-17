@@ -95,7 +95,10 @@ main()
     print_repo Super
 
     starting_dir=$PWD
-
+    
+    # Prevent the user from having to repeatedly enter his/her password
+	git config --global credential.helper 'cache --timeout=3600'
+	
     for repo in "${repos[@]}"; do
         (configure_repo $repo
         cd $starting_dir) &
