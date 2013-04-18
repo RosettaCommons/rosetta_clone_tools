@@ -83,6 +83,15 @@ main()
             [Ss] | [Ss][Ss][Hh] | "" ) url=git@github.com:RosettaCommons/; break;;
             [Hh] | [Hh][Tt][Tt][Pp][Ss] ) url=https://$github_user_name@github.com/RosettaCommons/; break;;
         *) color-echo  "Please answer SSH (s) or HTTPS (h).";;
+		esac	
+    done
+	
+	while true; do
+		read -p "Would you like to clone all 3 repositories in parallel? [y/n]? " yn
+        case $yn in
+            [Yy] | [Yy][Ee][Ss] ) parallel=true; break;;
+            [Nn] | [Nn][Oo] ) parallel=false; break;;
+        * ) color-echo  "Please answer yes (y) or no (n).";;
         esac
     done
 
@@ -99,10 +108,17 @@ main()
     # Prevent the user from having to repeatedly enter his/her password
 	git config --global credential.helper 'cache --timeout=3600'
 	
-    for repo in "${repos[@]}"; do
-        (configure_repo $repo
-        cd $starting_dir) &
-    done
+	if $parallel; then
+ 	   for repo in "${repos[@]}"; do
+        	(configure_repo $repo
+        	cd $starting_dir) &
+    	done
+	else
+  	   for repo in "${repos[@]}"; do
+         	(configure_repo $repo
+         	cd $starting_dir)
+     	done
+	fi
     
     wait
     color-echo  "\033[0;32mDone configuring your Rosetta git repository!\033[0m"
