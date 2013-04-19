@@ -1,3 +1,4 @@
+#!/bin/bash
 # :noTabs=true:
 # (c) Copyright Rosetta Commons Member Institutions.
 # (c) This file is part of the Rosetta software suite and is made available
