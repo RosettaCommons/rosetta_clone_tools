@@ -9,7 +9,7 @@ How to clone Rosetta
 --------------------
 
 ```
-curl -O https://raw.github.com/RosettaCommons/rosetta_clone_tools/master/get_rosetta.sh && sh get_rosetta.sh
+curl -O https://raw.github.com/RosettaCommons/rosetta_clone_tools/master/get_rosetta.sh && bash get_rosetta.sh
 ```
 
 
