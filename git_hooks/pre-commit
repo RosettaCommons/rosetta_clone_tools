@@ -18,6 +18,12 @@ do
     #the stat command is different in linux and os x because the universe is a terrible place
     
     file_size=0
+    
+    #if files have been deleted by this commit, or renamed, just skip the file
+    if [ ! -a $current_file ]; then
+        continue
+    fi
+    
     if [ $os_type == "Linux" ]; then
         file_size=`stat -c "%s" $current_file`
     elif [ $os_type == "Darwin" ]; then
