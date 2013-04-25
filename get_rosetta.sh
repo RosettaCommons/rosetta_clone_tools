@@ -57,7 +57,7 @@ main()
     read -p "Please enter your GitHub username: " github_user_name
     $color_echo  "\n"
 
-    read -p "Where would you like to clone Rosetta? " path
+    read -p "Where would you like to clone Rosetta? The default is the current directory." path
     if [ -z $path ]; then
         path="."
     fi
