@@ -38,11 +38,7 @@ else
 fi
 
 # Ensure the output is colorized to make it a little easier to read
-os_type=`uname`
-color_echo="echo"
-if [ $os_type == "Linux" ]; then
-    color_echo="echo -e"
-fi
+color_echo="echo -e"
 
 # Prevent git from using a graphical password prompt
 unset SSH_ASKPASS
