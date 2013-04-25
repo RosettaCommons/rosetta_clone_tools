@@ -32,7 +32,7 @@ hook_url="https://github.com/RosettaCommons/rosetta_clone_tools/raw/master/git_h
 # If you'd only like one or two of the repositories, you can specify which one(s)
 # on the command line.  Otherwise, all three will be cloned.
 if [ -z $1 ]; then
-    repos=(rosetta rosetta_demos rosetta_tools)
+    repos=(main rosetta_demos rosetta_tools)
 else
     repos=("$@")
 fi
