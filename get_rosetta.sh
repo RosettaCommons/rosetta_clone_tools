@@ -32,7 +32,7 @@ hook_url="https://github.com/RosettaCommons/rosetta_clone_tools/raw/master/git_h
 # If you'd only like one or two of the repositories, you can specify which one(s)
 # on the command line.  Otherwise, all three will be cloned.
 if [ -z $1 ]; then
-    repos=(main rosetta_demos rosetta_tools)
+    repos=(main demos tools)
 else
     repos=("$@")
 fi
@@ -178,7 +178,7 @@ print_repo()
         $color_echo  "\033[0;32m"'   \:\__\        \::/  /        /:/  /       \::/  /           \:\__\     \:\__\  \:\__\     '"\033[0m"
         $color_echo  "\033[0;32m"'    \/__/         \/__/         \/__/         \/__/             \/__/      \/__/   \/__/     '"\033[0m"
 
-    elif [ $1 == "rosetta" ]; then
+    elif [ $1 == "main" ]; then
         $color_echo  "\033[0;32m"'      ___           ___                       ___      '"\033[0m"
         $color_echo  "\033[0;32m"'     /\  \         /\  \                     /\  \     '"\033[0m"
         $color_echo  "\033[0;32m"'    |::\  \       /::\  \       ___          \:\  \    '"\033[0m"
@@ -191,7 +191,7 @@ print_repo()
         $color_echo  "\033[0;32m"'    \:\__\        \:\__\         /:/  /     \:\__\     '"\033[0m"
         $color_echo  "\033[0;32m"'     \/__/         \/__/         \/__/       \/__/     '"\033[0m"
 
-    elif [ $1 == "rosetta_demos" ]; then
+    elif [ $1 == "demos" ]; then
         $color_echo  "\033[0;32m"'                    ___           ___           ___           ___      '"\033[0m"
         $color_echo  "\033[0;32m"'     _____         /\__\         /\  \         /\  \         /\__\     '"\033[0m"
         $color_echo  "\033[0;32m"'    /::\  \       /:/ _/_       |::\  \       /::\  \       /:/ _/_    '"\033[0m"
@@ -204,7 +204,7 @@ print_repo()
         $color_echo  "\033[0;32m"'    \::/  /       \::/  /       \:\__\        \::/  /        /:/  /    '"\033[0m"
         $color_echo  "\033[0;32m"'     \/__/         \/__/         \/__/         \/__/         \/__/     '"\033[0m"
         
-    elif [ $1 == "rosetta_tools" ]; then
+    elif [ $1 == "tools" ]; then
         $color_echo  "\033[0;32m"'      ___           ___           ___                           ___      '"\033[0m"
         $color_echo  "\033[0;32m"'     /\__\         /\  \         /\  \                         /\__\     '"\033[0m"
         $color_echo  "\033[0;32m"'    /:/  /        /::\  \       /::\  \     ___               /:/ _/_    '"\033[0m"
