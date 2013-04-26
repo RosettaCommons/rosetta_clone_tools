@@ -26,8 +26,10 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Global data
+tools_url="https://github.com/RosettaCommons/rosetta_clone_tools/raw/master"
+hook_url=$tools_url"/git_hooks"
 hooks=(pre-commit post-commit)
-hook_url="https://github.com/RosettaCommons/rosetta_clone_tools/raw/master/git_hooks"
+commit_template="commit_template.txt"
 
 # If you'd only like one or two of the repositories, you can specify which one(s)
 # on the command line.  Otherwise, all three will be cloned.
@@ -102,6 +104,9 @@ main()
 
     starting_dir=$PWD
     
+    $color_echo  "\033[0;34mDownloading commit message template...\033[0m"
+    curl -L $tools_url/$commit_template > $path/.$commit_template
+    
     # Prevent the user from having to repeatedly enter his/her password
 	git config --global credential.helper 'cache --timeout=3600'
 	
@@ -138,8 +143,8 @@ configure_repo()
     git config branch.master.mergeoptions "--no-ff"
 
     $color_echo  "\033[0;34mConfiguring commit message template...\033[0m"
-    git config commit.template .commit_template.txt
-
+    git config commit.template ../.$commit_template
+	
     cd .git/hooks
     for hook in "${hooks[@]}"; do 
         $color_echo  "\033[0;34mConfiguring the $hook hook...\033[0m"
