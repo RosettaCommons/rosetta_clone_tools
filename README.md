@@ -19,6 +19,12 @@ A bash script that is used to get a copy of the Rosetta source code.
 * Configures some useful git aliases
 * Sets up a commit message template
 
+###*update_hooks.sh*###
+A script that downloads and places hooks into place.  The path to a git repository is required as an argument. Currently this sets up the following hooks:
+* pre-commit
+* post-commit
+* prepare-commit-message
+
 ###*commit_template.txt*###
 A commit message template that is used in the RosettaCommons. The template provides sections for: 
 * A one-line description of changes
@@ -35,3 +41,8 @@ This script is automatically executed before a `git-commit` is finalized.
 This script is automatically executed after a `git-commit` is finalized.
 * Prompts the developer to track their branch if it is untracked 
 * Reminds developer to push if there are >10 unpushed commits
+
+###*git_hooks/prepare-commit-message*###
+This script is automatically executed before a `git-commit` is finalized.
+* Populates the commit message with the commit_template.txt
+* Used on all commits, including merges
