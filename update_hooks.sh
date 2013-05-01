@@ -28,7 +28,7 @@
 # Global data
 tools_url="https://github.com/RosettaCommons/rosetta_clone_tools/raw/master"
 hook_url=$tools_url"/git_hooks"
-hooks=(pre-commit post-commit prepare-commit-message)
+hooks=(pre-commit post-commit prepare-commit-msg)
 
 # Ensure the output is colorized to make it a little easier to read
 color_echo="echo -e"
