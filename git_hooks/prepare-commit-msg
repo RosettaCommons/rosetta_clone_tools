@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cat ../../.commit_template.txt > $1
