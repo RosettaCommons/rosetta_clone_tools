@@ -27,8 +27,7 @@
 
 # Global data
 tools_url="https://github.com/RosettaCommons/rosetta_clone_tools/raw/master"
-hook_url=$tools_url"/git_hooks"
-hooks=(pre-commit post-commit)
+update_hooks="update_hooks.sh"
 commit_template="commit_template.txt"
 
 # If you'd only like one or two of the repositories, you can specify which one(s)
@@ -107,6 +106,9 @@ main()
     $color_echo  "\033[0;34mDownloading commit message template...\033[0m"
     curl -L $tools_url/$commit_template > $path/.$commit_template
     
+    $color_echo  "\033[0;34mDownloading update_hooks script...\033[0m"
+    curl -L $tools_url/$update_hooks > $path/$update_hooks
+    
     # Prevent the user from having to repeatedly enter his/her password
 	git config --global credential.helper 'cache --timeout=3600'
 	
@@ -123,6 +125,13 @@ main()
 	fi
     
     wait
+    
+    $color_echo  "\033[0;34mDeleting update_hooks script...\033[0m"
+    rm $path/$update_hooks
+    
+    $color_echo  "\033[0;34mDeleting the get_rosetta script...\033[0m"
+    rm get_rosetta.sh
+    
     $color_echo  "\033[0;32mDone configuring your Rosetta git repository!\033[0m"
 }
 
@@ -138,19 +147,9 @@ configure_repo()
     $color_echo  "\n\n \033[0;32m....is now cloned.\033[0m"
 
     cd $path/$1
-
-    $color_echo  "\033[0;34mConfiguring commit message template...\033[0m"
-    git config commit.template ../.$commit_template
 	
-    cd .git/hooks
-    for hook in "${hooks[@]}"; do 
-        $color_echo  "\033[0;34mConfiguring the $hook hook...\033[0m"
-        curl -L $hook_url/$hook > $hook
-        chmod +x $hook
-    done
-
-    cd ../..
-
+	bash ../$update_hooks .
+    
     $color_echo  "\033[0;34mConfiguring aliases...\033[0m"
     git config alias.tracked-branch '!sh -c "git checkout -b $2/$1 && git push origin $2/$1:$2/$1 && git branch --set-upstream $2/$1  origin/$2/$1" -'
     git config alias.personal-tracked-branch '!sh -c "git tracked-branch $1 $github_user_name" -'
