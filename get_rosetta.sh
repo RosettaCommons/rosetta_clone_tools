@@ -139,9 +139,6 @@ configure_repo()
 
     cd $path/$1
 
-    $color_echo  "\033[0;34mDisabling fast-forward merges on master...\033[0m"
-    git config branch.master.mergeoptions "--no-ff"
-
     $color_echo  "\033[0;34mConfiguring commit message template...\033[0m"
     git config commit.template ../.$commit_template
 	
