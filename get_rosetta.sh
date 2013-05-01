@@ -26,13 +26,15 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Global data
+tools_url="https://github.com/RosettaCommons/rosetta_clone_tools/raw/master"
+hook_url=$tools_url"/git_hooks"
 hooks=(pre-commit post-commit)
-hook_url="https://github.com/RosettaCommons/rosetta_clone_tools/raw/master/git_hooks"
+commit_template="commit_template.txt"
 
 # If you'd only like one or two of the repositories, you can specify which one(s)
 # on the command line.  Otherwise, all three will be cloned.
 if [ -z $1 ]; then
-    repos=(main rosetta_demos rosetta_tools)
+    repos=(main demos tools)
 else
     repos=("$@")
 fi
@@ -57,7 +59,7 @@ main()
     read -p "Please enter your GitHub username: " github_user_name
     $color_echo  "\n"
 
-    read -p "Where would you like to clone Rosetta? " path
+    read -p "Where would you like to clone Rosetta? The default is the current directory: " path
     if [ -z $path ]; then
         path="."
     fi
@@ -102,6 +104,9 @@ main()
 
     starting_dir=$PWD
     
+    $color_echo  "\033[0;34mDownloading commit message template...\033[0m"
+    curl -L $tools_url/$commit_template > $path/.$commit_template
+    
     # Prevent the user from having to repeatedly enter his/her password
 	git config --global credential.helper 'cache --timeout=3600'
 	
@@ -138,8 +143,8 @@ configure_repo()
     git config branch.master.mergeoptions "--no-ff"
 
     $color_echo  "\033[0;34mConfiguring commit message template...\033[0m"
-    git config commit.template .commit_template.txt
-
+    git config commit.template ../.$commit_template
+	
     cd .git/hooks
     for hook in "${hooks[@]}"; do 
         $color_echo  "\033[0;34mConfiguring the $hook hook...\033[0m"
@@ -178,7 +183,7 @@ print_repo()
         $color_echo  "\033[0;32m"'   \:\__\        \::/  /        /:/  /       \::/  /           \:\__\     \:\__\  \:\__\     '"\033[0m"
         $color_echo  "\033[0;32m"'    \/__/         \/__/         \/__/         \/__/             \/__/      \/__/   \/__/     '"\033[0m"
 
-    elif [ $1 == "rosetta" ]; then
+    elif [ $1 == "main" ]; then
         $color_echo  "\033[0;32m"'      ___           ___                       ___      '"\033[0m"
         $color_echo  "\033[0;32m"'     /\  \         /\  \                     /\  \     '"\033[0m"
         $color_echo  "\033[0;32m"'    |::\  \       /::\  \       ___          \:\  \    '"\033[0m"
@@ -191,7 +196,7 @@ print_repo()
         $color_echo  "\033[0;32m"'    \:\__\        \:\__\         /:/  /     \:\__\     '"\033[0m"
         $color_echo  "\033[0;32m"'     \/__/         \/__/         \/__/       \/__/     '"\033[0m"
 
-    elif [ $1 == "rosetta_demos" ]; then
+    elif [ $1 == "demos" ]; then
         $color_echo  "\033[0;32m"'                    ___           ___           ___           ___      '"\033[0m"
         $color_echo  "\033[0;32m"'     _____         /\__\         /\  \         /\  \         /\__\     '"\033[0m"
         $color_echo  "\033[0;32m"'    /::\  \       /:/ _/_       |::\  \       /::\  \       /:/ _/_    '"\033[0m"
@@ -204,7 +209,7 @@ print_repo()
         $color_echo  "\033[0;32m"'    \::/  /       \::/  /       \:\__\        \::/  /        /:/  /    '"\033[0m"
         $color_echo  "\033[0;32m"'     \/__/         \/__/         \/__/         \/__/         \/__/     '"\033[0m"
         
-    elif [ $1 == "rosetta_tools" ]; then
+    elif [ $1 == "tools" ]; then
         $color_echo  "\033[0;32m"'      ___           ___           ___                           ___      '"\033[0m"
         $color_echo  "\033[0;32m"'     /\__\         /\  \         /\  \                         /\__\     '"\033[0m"
         $color_echo  "\033[0;32m"'    /:/  /        /::\  \       /::\  \     ___               /:/ _/_    '"\033[0m"
