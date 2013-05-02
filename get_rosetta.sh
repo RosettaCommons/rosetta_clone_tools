@@ -104,10 +104,10 @@ main()
     starting_dir=$PWD
     
     $color_echo  "\033[0;34mDownloading commit message template...\033[0m"
-    curl -L $tools_url/$commit_template > $path/.$commit_template
+    curl -kL $tools_url/$commit_template > $path/.$commit_template
     
     $color_echo  "\033[0;34mDownloading update_hooks script...\033[0m"
-    curl -L $tools_url/$update_hooks > $path/$update_hooks
+    curl -kL $tools_url/$update_hooks > $path/$update_hooks
     
     # Prevent the user from having to repeatedly enter his/her password
 	git config --global credential.helper 'cache --timeout=3600'
