@@ -49,7 +49,7 @@ starting_dir=$PWD
 cd $repo/.git/hooks
 for hook in "${hooks[@]}"; do 
     $color_echo  "\033[0;34mConfiguring the $hook hook...\033[0m"
-    curl -L $hook_url/$hook > $hook
+    curl -kL $hook_url/$hook > $hook
     chmod +x $hook
 done
 
