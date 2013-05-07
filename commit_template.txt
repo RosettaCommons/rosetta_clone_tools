@@ -13,7 +13,3 @@
 #+BugFix [BUG_NUMBER] [LINK_TO_BUG]
 # Uncomment and fill in the line above to indicate this commit
 # fixes a known bug.
-
-#+TEST
-# Uncomment the line above if you would like your commit to be tested by the testing server.
-# NOTE: Some commits (e.g. merges-to-master and current HEAD) will be automatically tested.
