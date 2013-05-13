@@ -45,7 +45,7 @@ github_user_name=$2
 
 # Make sure the supplied path is a git repository
 if [ ! -e $repo/.git ]; then
-    $color-echo "\033[0;34m$repo is not a git repository!\033[0m"
+    $color_echo "\033[0;34m$repo is not a git repository!\033[0m"
 fi
 
 starting_dir=$PWD
