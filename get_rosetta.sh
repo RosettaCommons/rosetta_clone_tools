@@ -28,6 +28,7 @@
 # Global data
 tools_url="https://github.com/RosettaCommons/rosetta_clone_tools/raw/master"
 update_hooks="update_hooks.sh"
+update_config="update_config.sh"
 commit_template="commit_template.txt"
 
 # If you'd only like one or two of the repositories, you can specify which one(s)
@@ -109,6 +110,9 @@ main()
     $color_echo  "\033[0;34mDownloading update_hooks script...\033[0m"
     curl -kL $tools_url/$update_hooks > $path/$update_hooks
     
+    $color_echo  "\033[0;34mDownloading update_config script...\033[0m"
+    curl -kL $tools_url/$update_config > $path/$update_config
+    
     # Prevent the user from having to repeatedly enter his/her password
 	git config --global credential.helper 'cache --timeout=3600'
 	
@@ -128,6 +132,9 @@ main()
     
     $color_echo  "\033[0;34mDeleting update_hooks script...\033[0m"
     rm $path/$update_hooks
+    
+    $color_echo  "\033[0;34mDeleting update_config script...\033[0m"
+    rm $path/$update_config
     
     $color_echo  "\033[0;34mDeleting the get_rosetta script...\033[0m"
     rm get_rosetta.sh
@@ -150,18 +157,7 @@ configure_repo()
 	
 	bash ../$update_hooks .
     
-    $color_echo  "\033[0;34mConfiguring aliases...\033[0m"
-    git config alias.tracked-branch '!sh -c "git checkout -b $2/$1 && git push origin $2/$1:$2/$1 && git branch --set-upstream $2/$1  origin/$2/$1" -'
-    git config alias.personal-tracked-branch '!sh -c "git tracked-branch $1 $github_user_name" -'
-    sed -ie "s/\$github_user_name/$github_user_name/g" .git/config
-
-    git config alias.show-graph "log --graph --abbrev-commit --pretty=oneline"
-
-    $color_echo  "\033[0;34mConfiguring git colors...\033[0m"
-    git config color.branch auto
-    git config color.diff auto
-    git config color.interactive auto
-    git config color.status auto
+    bash ../$update_config . $github_user_name
 }
 
 print_repo() 
