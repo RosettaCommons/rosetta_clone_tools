@@ -58,7 +58,58 @@ main()
     $color_echo 
     read -p "Please enter your GitHub username: " github_user_name
     $color_echo  "\n"
+    while true; do
+        read -p "Are you creating a new clone [y/n]? " yn
+        case $yn in
+            [Yy] | [Yy][Ee][Ss] ) clone=1; break;;
+            [Nn] | [Nn][Oo] ) clone=0; break;;
+        * ) $color_echo  "Please answer yes (y) or no (n).";;
+        esac
+    done
+    
+    if [[ clone -eq 1 ]]; then
+        clone_hooks_config
+    else
+      hooks_config
+    fi
 
+    $color_echo  "\033[0;34mDeleting update_hooks script...\033[0m"
+    rm $path/$update_hooks
+    
+    $color_echo  "\033[0;34mDeleting update_config script...\033[0m"
+    rm $path/$update_config
+    
+    $color_echo  "\033[0;34mDeleting the get_rosetta script...\033[0m"
+    rm get_rosetta.sh
+    
+    $color_echo  "\033[0;32mDone configuring your Rosetta git repository!\033[0m"
+}
+
+hooks_config()
+{
+    read -p "Where is your copy of Rosetta? The default is the current directory (i.e. ./Rosetta exits): " path
+    if [ -z $path ]; then
+        path="."
+    fi
+
+    if [ ! -d $path ]; then
+        $color_echo  "\033[0;33m'$path' does not exist!\033[0m You'll need to create '$path' if you want to install rosetta there."
+        exit
+    fi  
+
+    download_helper_scripts
+	
+  	for repo in "${repos[@]}"; do
+        (cd $path
+        print_repo $repo
+        bash ./$update_hooks .
+        bash ./$update_config . $github_user_name
+        cd $starting_dir)
+    done
+}
+
+clone_hooks_config()
+{
     read -p "Where would you like to clone Rosetta? The default is the current directory: " path
     if [ -z $path ]; then
         path="."
@@ -97,6 +148,32 @@ main()
     if [ ! -d $path/Rosetta ]; then
         mkdir $path/Rosetta
     fi
+    
+    download_helper_scripts
+    
+    # Prevent the user from having to repeatedly enter his/her password
+	git config --global credential.helper 'cache --timeout=3600'
+	
+	if $parallel; then
+ 	   for repo in "${repos[@]}"; do
+        	(configure_repo $repo
+        	bash ../$update_hooks .
+        	bash ../$update_config . $github_user_name
+        	cd $starting_dir) &
+    	done
+	else
+  	   for repo in "${repos[@]}"; do
+         	(configure_repo $repo
+         	bash ../$update_hooks .
+        	bash ../$update_config . $github_user_name
+         	cd $starting_dir)
+     	done
+	fi
+    
+    wait
+}
+
+download_helper_scripts() {
     path="$path/Rosetta/"
 
     $color_echo  "\033[0;34mConfiguring...\033[0m"
@@ -112,34 +189,6 @@ main()
     
     $color_echo  "\033[0;34mDownloading update_config script...\033[0m"
     curl -kL $tools_url/$update_config > $path/$update_config
-    
-    # Prevent the user from having to repeatedly enter his/her password
-	git config --global credential.helper 'cache --timeout=3600'
-	
-	if $parallel; then
- 	   for repo in "${repos[@]}"; do
-        	(configure_repo $repo
-        	cd $starting_dir) &
-    	done
-	else
-  	   for repo in "${repos[@]}"; do
-         	(configure_repo $repo
-         	cd $starting_dir)
-     	done
-	fi
-    
-    wait
-    
-    $color_echo  "\033[0;34mDeleting update_hooks script...\033[0m"
-    rm $path/$update_hooks
-    
-    $color_echo  "\033[0;34mDeleting update_config script...\033[0m"
-    rm $path/$update_config
-    
-    $color_echo  "\033[0;34mDeleting the get_rosetta script...\033[0m"
-    rm get_rosetta.sh
-    
-    $color_echo  "\033[0;32mDone configuring your Rosetta git repository!\033[0m"
 }
 
 configure_repo()
@@ -154,10 +203,6 @@ configure_repo()
     $color_echo  "\n\n \033[0;32m....is now cloned.\033[0m"
 
     cd $path/$1
-	
-	bash ../$update_hooks .
-    
-    bash ../$update_config . $github_user_name
 }
 
 print_repo() 
