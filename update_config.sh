@@ -33,11 +33,11 @@ color_echo="echo -e"
 
 # Make sure the required arguments were supplied
 if [ -z $1 ]; then
-    $color-echo "\033[0;34mYou must pass the path of a git repository as the first argument to this script.\033[0m"
+    $color_echo "\033[0;34mYou must pass the path of a git repository as the first argument to this script.\033[0m"
 fi
 
 if [ -z $1 ]; then
-    $color-echo "\033[0;34mYou must pass your GitHub username as the second argument to this script.\033[0m"
+    $color_echo "\033[0;34mYou must pass your GitHub username as the second argument to this script.\033[0m"
 fi
 
 repo=$1
