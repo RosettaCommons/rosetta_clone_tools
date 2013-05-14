@@ -100,10 +100,10 @@ hooks_config()
     download_helper_scripts
 	
   	for repo in "${repos[@]}"; do
-        (cd $path
+        (cd $path/$repo
         print_repo $repo
-        bash ./$update_hooks .
-        bash ./$update_config . $github_user_name
+        bash ../$update_hooks .
+        bash ../$update_config . $github_user_name
         cd $starting_dir)
     done
 }
