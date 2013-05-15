@@ -1,5 +1,5 @@
 #!/bin/bash
 
-if [ "$2"  != "message" ]; then
+if [ "$2"  == "" ]; then
     cat ../.commit_template.txt > $1
 fi
