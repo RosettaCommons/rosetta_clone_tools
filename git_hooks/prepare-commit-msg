@@ -1,5 +1,5 @@
 #!/bin/bash
 
-if [ "$2"  == "" ]; then
+if [ "$2"  == "" -o "$2" == "merge" ]; then
     cat ../.commit_template.txt > $1
 fi
