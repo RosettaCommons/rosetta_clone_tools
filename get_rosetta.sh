@@ -73,6 +73,15 @@ main()
       hooks_config
     fi
 
+    $color_echo  "\033[0;34mConfiguring your global line endings settings to play nicely with everyone...\033[0m"
+    if [[ `uname` == "Linux" || `uname` == "Darwin" ]]; then 
+    	# Set this setting on OS X or Linux
+    	git config --global core.autocrlf input
+    else
+    	# Set this setting on Windows
+    	git config --global core.autocrlf true
+    fi
+    
     $color_echo  "\033[0;34mDeleting update_hooks script...\033[0m"
     rm $path/$update_hooks
     
