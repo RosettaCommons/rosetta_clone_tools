@@ -13,10 +13,13 @@
 #          them to play nicely with how our community is organized.           #
 #                                                                             #
 # Note: Before you begin,                                                     #
-#       1) Create a GitHub account and tell Andrew Leaver-Fay                 #
-#          (aleaverfay@gmail.com) your GitHub user name so that he can        #
-#          add you to the RosettaCommons account, and                         #
-#       2) Set up SSH keys with GitHub following the                          #
+#       1) Sign the developers' agreement and have your PI email Yuval        #
+#          Sedan (yuval.sedan@mail.huji.ac.il) granting you explicit          #
+#          read and/or write access.  See the wiki for details.               #
+#       2) Create a GitHub account and tell Yuval Sedan                       #
+#          (yuval.sedan@mail.huji.ac.il) your GitHub user name                #
+#          so that he can add you to the RosettaCommons account, and          #
+#       3) Set up SSH keys with GitHub following the                          #
 #          instructions here                                                  #
 #          https://help.github.com/articles/generating-ssh-keys               #
 #                                                                             #
@@ -48,13 +51,14 @@ unset SSH_ASKPASS
 main()
 {
     $color_echo  "\033[0;32mConfiguring the Rosetta GitHub repository on your machine.\033[0m"
-    $color_echo  "\033[0;34mMake sure you have already\033[0m"
-    $color_echo  "\033[0;34m   1) created your GitHub account\033[0m"
-    $color_echo  "\033[0;34m   2) emailed your GitHub user name to Andrew Leaver-Fay (aleaverfay@gmail.com)\033[0m"
-    $color_echo  "\033[0;34m   3) Set up SSH keys to GitHub on your machine following the instructions here:\033[0m"
-    $color_echo  "\033[0;34m      https://help.github.com/articles/generating-ssh-keys\033[0m"
-    $color_echo  "\033[0;34m   4) to use HTTPS, follow the instructions for password caching here:\033[0m"
-    $color_echo  "\033[0;34m      https://help.github.com/articles/set-up-git\033[0m"
+    $color_echo  "\033[0;34mMake sure you have already:\033[0m"
+    $color_echo  "\033[0;34m   1)  Signed the developer agreement,\033[0m"
+    $color_echo  "\033[0;34m   2)  Created your GitHub account\033[0m"
+    $color_echo  "\033[0;34m   3)  Emailed your GitHub user name to Andrew Leaver-Fay (aleaverfay@gmail.com)\033[0m"
+    $color_echo  "\033[0;34m   4a) Set up SSH keys to GitHub on your machine following the instructions here:\033[0m"
+    $color_echo  "\033[0;34m       https://help.github.com/articles/generating-ssh-keys\033[0m"
+    $color_echo  "\033[0;34m   4b) Or, to use HTTPS, followed the instructions for password caching here:\033[0m"
+    $color_echo  "\033[0;34m       https://help.github.com/articles/set-up-git\033[0m"
     $color_echo 
     read -p "Please enter your GitHub username: " github_user_name
     $color_echo  "\n"
