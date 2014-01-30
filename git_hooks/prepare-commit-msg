@@ -5,3 +5,5 @@ if [ "$2"  == "" -o "$2" == "merge" ]; then
     echo >> $1
     git status | grep '^#' >> $1
 fi
+
+exit 0
