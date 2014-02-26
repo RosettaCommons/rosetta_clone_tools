@@ -34,16 +34,16 @@ update_hooks="update_hooks.sh"
 update_config="update_config.sh"
 commit_template="commit_template.txt"
 
+# Ensure the output is colorized to make it a little easier to read
+color_echo="echo -e"
+
 # If you'd only like one or two of the repositories, you can specify which one(s)
 # on the command line.  Otherwise, all three will be cloned.
 if [ -z $1 ]; then
-    repos=(main demos tools)
+    repos=(main demos tools documentation)
 else
     repos=("$@")
 fi
-
-# Ensure the output is colorized to make it a little easier to read
-color_echo="echo -e"
 
 # Prevent git from using a graphical password prompt
 unset SSH_ASKPASS
@@ -51,6 +51,13 @@ unset SSH_ASKPASS
 main()
 {
     $color_echo  "\033[0;32mConfiguring the Rosetta GitHub repository on your machine.\033[0m"
+    $color_echo  "\033[0;32mThe following repositories will be cloned:\033[0m"
+    for repo in "${repos[@]}"; do
+        $color_echo  "\033[0;32m  - ${repo}\033[0m"
+    done
+    $color_echo  "\033[0;32mTo specify specific repositories, pass them as arguments to this script\033[0m"
+    $color_echo  "\033[0;32m\033[0m"
+
     $color_echo  "\033[0;34mMake sure you have already:\033[0m"
     $color_echo  "\033[0;34m   1)  Signed the developer agreement,\033[0m"
     $color_echo  "\033[0;34m   2)  Created your GitHub account,\033[0m"
@@ -150,7 +157,7 @@ clone_hooks_config()
     done
 	
 	while true; do
-		read -p "Would you like to clone all 3 repositories in parallel? [y/n]? " yn
+		read -p "Would you like to clone all repositories in parallel? [y/n]? " yn
         case $yn in
             [Yy] | [Yy][Ee][Ss] ) parallel=true; break;;
             [Nn] | [Nn][Oo] ) parallel=false; break;;
@@ -272,6 +279,9 @@ print_repo()
         $color_echo  "\033[0;32m"'        \:\__\    \::/  /       \::/  /         \::/  /        /:/  /    '"\033[0m"
         $color_echo  "\033[0;32m"'         \/__/     \/__/         \/__/           \/__/         \/__/     '"\033[0m"
     
+    elif [ $1 == "documentation" ]; then
+        $color_echo  "\033[0;32m"' DOCUMENTATION!!! '"\033[0m"
+
     fi
 
     $color_echo 
