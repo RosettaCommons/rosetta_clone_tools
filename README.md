@@ -5,7 +5,7 @@ Rosetta Clone Tools
 How to clone Rosetta
 --------------------
 ```
-curl -O https://raw.github.com/RosettaCommons/rosetta_clone_tools/master/get_rosetta.sh && bash get_rosetta.sh
+curl -kL https://raw.github.com/RosettaCommons/rosetta_clone_tools/master/get_rosetta.sh > get_rosetta.sh && bash get_rosetta.sh
 ```
 will clone rosetta and set it up.  Follow all instructions when prompted by the script
 
