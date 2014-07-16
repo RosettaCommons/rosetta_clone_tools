@@ -53,7 +53,7 @@ starting_dir=$PWD
 cd $repo
 
 $color_echo  "\033[0;34mConfiguring aliases...\033[0m"
-git config alias.tracked-branch '!sh -c "git checkout -b $2/$1 && git push origin $2/$1:$2/$1 && git branch --set-upstream $2/$1  origin/$2/$1" -'
+git config alias.tracked-branch '!sh -c "git checkout -b $2/$1 && git push origin $2/$1:$2/$1 && git branch -u origin/$2/$1" -'
 git config alias.personal-tracked-branch '!sh -c "git tracked-branch $1 $github_user_name" -'
 sed -ie "s/\$github_user_name/$github_user_name/g" .git/config
 
