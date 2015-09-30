@@ -4,7 +4,7 @@
 // being sure to enable C++11 mode (usually the `--std=c++11` flag, might be `--std=c++0x`).
 // For example:
 //
-// /usr/local/bin/g++ --std=c++11 -o rosetta_compiler_test rosetta_compiler_test.cc
+// /usr/local/bin/g++ --std=c++0x -o rosetta_compiler_test rosetta_compiler_test.cc
 //
 // If you don't have any errors compiling, and when the executable `./rosetta_compiler_test` is run
 // it should print a message that your compiler is supported.
