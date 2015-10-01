@@ -1,5 +1,5 @@
 //
-// This file is a test program to see if your compiler is able to compile Rosetta.
+// This file is a test program to see if your compiler is able to compile Rosetta with new C++11 features.
 // To run the test, compile this file with the same compiler you intend to use to compiler Rosetta,
 // being sure to enable C++11 mode (usually the `-std=c++11` flag, might be `-std=c++0x`).
 // For example:
