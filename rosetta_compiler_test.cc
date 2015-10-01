@@ -1,12 +1,12 @@
 //
-// This file is a test program to see if your compiler is able to compile Rosetta with new C++11 features.
-// To run the test, compile this file with the same compiler you intend to use to compiler Rosetta,
+// This file is a test program to see if your compiler is able to use new C++11 features.
+// To run the test, compile this file with the same compiler you intend to use to compile Rosetta,
 // being sure to enable C++11 mode (usually the `-std=c++11` flag, might be `-std=c++0x`).
 // For example:
 //
 // /usr/local/bin/g++ -std=c++0x -o rosetta_compiler_test rosetta_compiler_test.cc
 //
-// If you don't have any errors compiling, and when the executable `./rosetta_compiler_test` is run
+// If you don't have any errors compiling, when the executable `./rosetta_compiler_test` is run
 // it should print a message that your compiler is supported.
 //
 // If you're using clang, you may wish to try adding the flag -stdlib=libc++ and see if that helps things.
