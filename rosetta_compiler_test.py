@@ -101,6 +101,14 @@ int main() {
     return 0;
 }''',
 
+"CHRONO":
+'''#include <chrono>
+int main() {
+    std::chrono::nanoseconds ns(5);
+    std::chrono::system_clock::now();
+    return 0;
+}''',
+
 }
 
 OPTIONAL_TESTS = {
@@ -120,6 +128,39 @@ int main() {
     std::regex reg("sub");
     if ( std::regex_search(s,reg) ) { return 1; }
     else { return 0; }
+}''',
+
+"THREAD":
+'''#include <thread>
+#include <atomic>
+int main() {
+    std::thread thread1;
+    std::atomic_thread_fence( std::memory_order_acquire );
+    std::thread::id this_id( std::this_thread::get_id() );
+    return 0;
+}''',
+
+"ATOMIC":
+'''#include <atomic>
+class DummyClass {};
+int main() {
+    std::atomic< DummyClass * > atomic_class;
+    return 0;
+}''',
+
+"MUTEX":
+'''#include <mutex>
+int main() {
+    std::mutex my_mutex;
+    std::lock_guard<std::mutex> lock(my_mutex);
+    return 0;
+}''',
+
+"CONDITION VARIABLE":
+'''#include <condition_variable>
+int main() {
+    std::condition_variable_any cva;
+    return 0;
 }''',
 
 }
