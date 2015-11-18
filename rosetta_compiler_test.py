@@ -169,9 +169,11 @@ int main() {
 import sys, os
 import subprocess
 
-def run_and_get_errors( command ):
+def run_and_get_errors( command, with_output = False):
     process = subprocess.Popen( command, stdout=subprocess.PIPE, stderr=subprocess.PIPE )
     output, error = process.communicate()
+    if with_output:
+        return (output+error).strip()
     if process.returncode == 0:
         return None
     elif error:
@@ -207,7 +209,8 @@ def main(arguments, verbose):
         print error
         exit(-1)
 
-    print "Testing compiler '%s' ..." % ' '.join(arguments)
+    print "Testing compiler '%s', reporting as:" % arguments[0]
+    print '\t', run_and_get_errors( [arguments[0], '--version'], True ).split('\n')[0]
 
     name_size = max( [len(t)+1 for t in TESTS.keys() + OPTIONAL_TESTS.keys()] )
 
