@@ -80,7 +80,7 @@ int main() {
 '''#include <utility>
 class Movable {
     int content_;
-    public:
+public:
     Movable( int val, int val2 ): content_(val) {}
     Movable( Movable && rval ) {
         std::swap(content_, rval.content_);
@@ -108,6 +108,35 @@ int main() {
     std::chrono::system_clock::now();
     return 0;
 }''',
+
+"DELETED CONSTRUCTORS":
+'''
+class X {
+public:
+    X() = default;
+    X( X const & ) = delete;
+    X & operator=( X const & ) = delete;
+};
+int main() { return 0; }''',
+
+"DELEGATING CONSTRUCTORS":
+'''
+class X {
+    int content_;
+public:
+    X(int x) : content_(x) {};
+    X() : X(0) {};
+};
+int main() { return 0; }''',
+
+"IN-CLASS INITIALIZATION":
+'''
+class X {
+    int integer_ = 0;
+    double real_ = 3.14;
+    X * parent_ = 0;
+};
+int main() { return 0; }''',
 
 }
 
