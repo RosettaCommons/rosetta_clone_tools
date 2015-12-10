@@ -141,6 +141,17 @@ class X {
 };
 int main() { return 0; }''',
 
+"OVERRIDE":
+'''
+struct X {
+    virtual int apply() { return 1; }
+};
+struct Y: public X {
+    virtual int apply() override { return 0; }
+};
+
+int main() { return Y().apply(); }''',
+
 }
 
 OPTIONAL_TESTS = {
