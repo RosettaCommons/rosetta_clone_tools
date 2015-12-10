@@ -4,14 +4,17 @@
 
 This script will attempt to test various advanced compiler features which Rosetta uses.
 
-It will produce a report detailing those items which are supported and those which are not by your compiler.
+It will produce a report detailing those items which are supported by your compiler
+and those which are not.
 
 Call with the compiler you wish to test, along with any flags you need to to turn on C++11 mode.
-(Usually -std=c++11 or -std=c++0x but may vary based on compiler.
+(Usually -std=c++11 or -std=c++0x but may vary based on compiler.)
 
      ./rosetta_compiler_test.py /usr/local/bin/g++4.7 -std=c++0x
 
-Be sure to use the C++ compiler (e.g. 'g++' or 'clang++') rather than the C compiler ('gcc' or 'clang').
+Be sure to use the C++ compiler (e.g. 'g++' or 'clang++')
+rather than the C compiler ('gcc' or 'clang').
+
 Clang users may want to try adding '-stdlib=libc++' and see if that helps things.
 
 You can pass '-v' to get details about the errors.
@@ -155,8 +158,8 @@ int main() {
 int main() {
     std::string s("find substring");
     std::regex reg("sub");
-    if ( std::regex_search(s,reg) ) { return 1; }
-    else { return 0; }
+    if ( std::regex_search(s,reg) ) { return 0; }
+    else { return 1; }
 }''',
 
 "THREAD":
@@ -224,6 +227,12 @@ def run_tests( tests, arguments, padding ):
         error = run_and_get_errors( arguments + [ "rosetta_compiler_test.cc", '-o', "rosetta_compiler_test" ] )
         if error is not None:
             sys.stdout.write("<<<FAILED!>>>\n")
+            errors[ test ] = error
+            continue
+        # Check to make sure it runs appropriately.
+        error = run_and_get_errors( ["./rosetta_compiler_test"] )
+        if error is not None:
+            sys.stdout.write("<<<FAILED! (Compiled but did not run.)>>>\n")
             errors[ test ] = error
         else:
             sys.stdout.write("Pass.\n")
