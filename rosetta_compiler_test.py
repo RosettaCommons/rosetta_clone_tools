@@ -152,6 +152,14 @@ struct Y: public X {
 
 int main() { return Y().apply(); }''',
 
+"BIND":
+'''#include <functional>
+int diff(int x, int y) { return x-2*y; }
+int main() {
+    auto bound = std::bind( diff, 6, std::placeholders::_3 );
+    return bound(1,2,3);
+}''',
+
 }
 
 OPTIONAL_TESTS = {
