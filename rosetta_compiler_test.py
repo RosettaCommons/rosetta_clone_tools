@@ -308,7 +308,7 @@ if __name__ == "__main__":
         arguments.remove('-v')
     else:
         verbose = False
-    if len(arguments) == 1:
+    if len(arguments) == 1 or '-h' in arguments or '--help' in arguments:
         print __doc__
         exit(-1)
     else:
