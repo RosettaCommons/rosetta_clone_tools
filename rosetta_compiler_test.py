@@ -272,7 +272,8 @@ def test_libstdcpp_version( arguments ) :
     "   return 0;\n",
     "}\n" ]
     open( "test_libstdcpp_version.cc", "w" ).writelines( source );
-    command = list(arguments) + ["-o print_libstdcpp_version.gcc", "test_libstdcpp_version.cc"]
+    command = list(arguments) + ["-o", "print_libstdcpp_version.gcc", "test_libstdcpp_version.cc"]
+    print " ".join(command)
     process = subprocess.Popen( command, stdout=subprocess.PIPE, stderr=subprocess.PIPE )
     output, error = process.communicate()
     if process.returncode != 0 :
