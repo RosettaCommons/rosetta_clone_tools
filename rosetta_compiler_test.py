@@ -257,6 +257,40 @@ def run_tests( tests, arguments, padding ):
             sys.stdout.write("Pass.\n")
     return errors
 
+def test_libstdcpp_version( arguments ) :
+    source = [
+    "// libdatestamp.cxx\n",
+    "#include <cstdio>\n",
+    "\n", 
+    "int main(int argc, char* argv[]){\n",
+    "#ifdef __GLIBCPP__\n",
+    "    std::printf(\"GLIBCPP: %d\\n\",__GLIBCPP__);\n",
+    "#endif\n",
+    "#ifdef __GLIBCXX__\n",
+    "    std::printf(\"GLIBCXX: %d\\n\",__GLIBCXX__);\n",
+    "#endif\n",
+    "   return 0;\n",
+    "}\n" ]
+    open( "test_libstdcpp_version.cc", "w" ).writelines( source );
+    command = list(arguments) + ["-o print_libstdcpp_version.gcc", "test_libstdcpp_version.cc"]
+    process = subprocess.Popen( command, stdout=subprocess.PIPE, stderr=subprocess.PIPE )
+    output, error = process.communicate()
+    if process.returncode != 0 :
+        print "Failed to compile test_libstdcpp_version"
+        print "output:", output
+        print "error:", error
+        os.remove( "test_libstdcpp_version.cc" )
+        return
+    second_command = ["./print_libstdcpp_version.gcc"]
+    process = subprocess.Popen( second_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE )
+    output, error = process.communicate()
+    if process.returncode != 0 :
+        print "Failed to execute print_libstdcpp_version.gcc"
+        print output
+    else:
+        print "Version for libstdc++: ", output
+    os.remove( "test_libstdcpp_version.cc" )
+    os.remove( "print_libstdcpp_version.gcc" )
 
 def main(arguments, verbose):
     # Test if the compiler will work
@@ -268,6 +302,8 @@ def main(arguments, verbose):
 
     print "Testing compiler '%s', reporting as:" % arguments[0]
     print '\t', run_and_get_errors( [arguments[0], '--version'], True ).split('\n')[0]
+
+    test_libstdcpp_version( arguments )
 
     name_size = max( [len(t)+1 for t in TESTS.keys() + OPTIONAL_TESTS.keys()] )
 
