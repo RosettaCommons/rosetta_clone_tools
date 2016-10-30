@@ -7,18 +7,18 @@ This script will attempt to test various advanced compiler features which Rosett
 It will produce a report detailing those items which are supported by your compiler
 and those which are not.
 
-Call with the compiler you wish to test, along with any flags you need to to turn on C++11 mode.
-(Usually -std=c++11 or -std=c++0x but may vary based on compiler.)
+Call with the compiler you wish to test, including the path if it's in a non-standard location:
 
-     ./rosetta_compiler_test.py /usr/local/bin/g++4.7 -std=c++0x
+    ./rosetta_compiler_test.py g++
 
-Be sure to use the C++ compiler (e.g. 'g++' or 'clang++')
-rather than the C compiler ('gcc' or 'clang').
+    ./rosetta_compiler_test.py /usr/local/bin/clang++
 
-Clang users may want to try adding '-stdlib=libc++' and see if that helps things.
+Be sure to use the C++ compiler (e.g. 'g++' or 'clang++') rather than the C compiler ('gcc' or 'clang'),
+and run any package/module loading commands your cluster needs to enable the appropriate compiler.
+
+Clang users also may want to try adding '-stdlib=libc++' to the commandline to see if that helps things.
 
 You can pass '-v' to get details about the errors.
-
 """
 
 TESTS = {
@@ -243,7 +243,7 @@ def run_tests( tests, arguments, padding ):
 
         sys.stdout.write((test+':').ljust(padding) + '\t')
         sys.stdout.flush()
-        error = run_and_get_errors( arguments + [ "rosetta_compiler_test.cc", '-o', "rosetta_compiler_test" ] )
+        error = run_and_get_errors( arguments + [ "-std=c++11", "rosetta_compiler_test.cc", '-o', "rosetta_compiler_test" ] )
         if error is not None:
             sys.stdout.write("<<<FAILED!>>>\n")
             errors[ test ] = error
