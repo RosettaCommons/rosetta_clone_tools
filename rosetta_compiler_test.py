@@ -160,6 +160,16 @@ int main() {
     return bound(1,2,3);
 }''',
 
+"INHERITING CONSTRUCTORS":
+'''
+struct B1 {
+    B1(int);
+};
+struct D1 : B1 {
+    using B1::B1;
+};
+int main() { return 0; }''',
+
 }
 
 OPTIONAL_TESTS = {
@@ -256,7 +266,6 @@ def run_tests( tests, arguments, padding ):
         else:
             sys.stdout.write("Pass.\n")
     return errors
-
 
 def main(arguments, verbose):
     # Test if the compiler will work
