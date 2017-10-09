@@ -58,6 +58,7 @@ git config alias.personal-tracked-branch '!sh -c "git tracked-branch $1 $github_
 sed -ie "s/\$github_user_name/$github_user_name/g" .git/config
 
 git config alias.show-graph "log --graph --abbrev-commit --pretty=oneline"
+git config alias.full-update '!sh -c "git merge origin/master && git submodule update" -'
 
 $color_echo  "\033[0;34mConfiguring git colors...\033[0m"
 git config color.branch auto
