@@ -70,9 +70,9 @@ main()
     read -p "Please enter your GitHub username: " github_user_name
     $color_echo  "\n"
     while true; do
-        read -p "Are you creating a new clone [y/n]? " yn
+        read -p "Are you creating a new clone [y/n] (Default: YES)? " yn
         case $yn in
-            [Yy] | [Yy][Ee][Ss] ) clone=1; break;;
+            [Yy] | [Yy][Ee][Ss] | "" ) clone=1; break;;
             [Nn] | [Nn][Oo] ) clone=0; break;;
         * ) $color_echo  "Please answer yes (y) or no (n).";;
         esac
@@ -138,9 +138,9 @@ clone_hooks_config()
     if [ ! -d $path ]; then
         $color_echo  "\033[0;33m'$path' does not exist!\033[0m You'll need to create '$path' if you want to install rosetta there."
         while true; do
-            read -p "Would you like to create this directory now [y/n]? " yn
+            read -p "Would you like to create this directory now [y/n] (Default: YES)? " yn
             case $yn in
-                [Yy] | [Yy][Ee][Ss] ) mkdir $path; break;;
+                [Yy] | [Yy][Ee][Ss] | "" ) mkdir $path; break;;
                 [Nn] | [Nn][Oo] ) exit;;
             * ) $color_echo  "Please answer yes (y) or no (n).";;
             esac
@@ -157,9 +157,9 @@ clone_hooks_config()
     done
 	
 	while true; do
-		read -p "Would you like to clone all repositories in parallel? [y/n]? " yn
+		read -p "Would you like to clone all repositories in parallel? [y/n] (Default: YES)? " yn
         case $yn in
-            [Yy] | [Yy][Ee][Ss] ) parallel=true; break;;
+            [Yy] | [Yy][Ee][Ss] | "" ) parallel=true; break;;
             [Nn] | [Nn][Oo] ) parallel=false; break;;
         * ) $color_echo  "Please answer yes (y) or no (n).";;
         esac
