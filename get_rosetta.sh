@@ -40,7 +40,8 @@ color_echo="echo -e"
 # If you'd only like one or two of the repositories, you can specify which one(s)
 # on the command line.  Otherwise, all three will be cloned.
 if [ -z $1 ]; then
-    repos=(main demos tools documentation)
+    #repos=(main demos tools documentation)
+    repos=(main)
 else
     repos=("$@")
 fi
@@ -66,7 +67,7 @@ main()
     $color_echo  "\033[0;34m       https://help.github.com/articles/generating-ssh-keys\033[0m"
     $color_echo  "\033[0;34m   4b) Or, to use HTTPS, followed the instructions for password caching here:\033[0m"
     $color_echo  "\033[0;34m       https://help.github.com/articles/set-up-git\033[0m"
-    $color_echo 
+    $color_echo
     read -p "Please enter your GitHub username: " github_user_name
     $color_echo  "\n"
     while true; do
@@ -77,7 +78,7 @@ main()
         * ) $color_echo  "Please answer yes (y) or no (n).";;
         esac
     done
-    
+
     if [[ clone -eq 1 ]]; then
         clone_hooks_config
     else
@@ -85,23 +86,23 @@ main()
     fi
 
     $color_echo  "\033[0;34mConfiguring your global line endings settings to play nicely with everyone...\033[0m"
-    if [[ `uname` == "Linux" || `uname` == "Darwin" ]]; then 
+    if [[ `uname` == "Linux" || `uname` == "Darwin" ]]; then
     	# Set this setting on OS X or Linux
     	git config --global core.autocrlf input
     else
     	# Set this setting on Windows
     	git config --global core.autocrlf true
     fi
-    
+
     $color_echo  "\033[0;34mDeleting update_hooks script...\033[0m"
     rm $path/$update_hooks
-    
+
     $color_echo  "\033[0;34mDeleting update_config script...\033[0m"
     rm $path/$update_config
-    
+
     $color_echo  "\033[0;34mDeleting the get_rosetta script...\033[0m"
     rm get_rosetta.sh
-    
+
     $color_echo  "\033[0;32mDone configuring your Rosetta git repository!\033[0m"
 }
 
@@ -115,10 +116,10 @@ hooks_config()
     if [ ! -d $path ]; then
         $color_echo  "\033[0;33m'$path' does not exist!\033[0m You'll need to create '$path' if you want to install rosetta there."
         exit
-    fi  
+    fi
 
     download_helper_scripts
-	
+
   	for repo in "${repos[@]}"; do
         (cd $path/$repo
         print_repo $repo
@@ -145,7 +146,7 @@ clone_hooks_config()
             * ) $color_echo  "Please answer yes (y) or no (n).";;
             esac
         done
-    fi  
+    fi
 
     while true; do
         read -p "Would you like to clone over SSH (s) or HTTPS (h) - Note that SSH keys are required for cloning over SSH (Default: SSH)? " protocol
@@ -153,9 +154,9 @@ clone_hooks_config()
             [Ss] | [Ss][Ss][Hh] | "" ) url=git@github.com:RosettaCommons/; break;;
             [Hh] | [Hh][Tt][Tt][Pp][Ss] ) url=https://$github_user_name@github.com/RosettaCommons/; break;;
         *) $color_echo  "Please answer SSH (s) or HTTPS (h).";;
-		esac	
+		esac
     done
-	
+
 	while true; do
 		read -p "Would you like to clone all repositories in parallel? [y/n] (Default: YES)? " yn
         case $yn in
@@ -168,12 +169,12 @@ clone_hooks_config()
     if [ ! -d $path/Rosetta ]; then
         mkdir $path/Rosetta
     fi
-    
+
     download_helper_scripts
-    
+
     # Prevent the user from having to repeatedly enter his/her password
 	git config --global credential.helper 'cache --timeout=3600'
-	
+
 	if $parallel; then
  	   for repo in "${repos[@]}"; do
         	(configure_repo $repo
@@ -189,7 +190,7 @@ clone_hooks_config()
          	cd $starting_dir)
      	done
 	fi
-    
+
     wait
 }
 
@@ -200,13 +201,13 @@ download_helper_scripts() {
     print_repo Super
 
     starting_dir=$PWD
-    
+
     $color_echo  "\033[0;34mDownloading commit message template...\033[0m"
     curl -kL $tools_url/$commit_template > $path/.$commit_template
-    
+
     $color_echo  "\033[0;34mDownloading update_hooks script...\033[0m"
     curl -kL $tools_url/$update_hooks > $path/$update_hooks
-    
+
     $color_echo  "\033[0;34mDownloading update_config script...\033[0m"
     curl -kL $tools_url/$update_config > $path/$update_config
 }
@@ -225,7 +226,7 @@ configure_repo()
     cd $path/$1
 }
 
-print_repo() 
+print_repo()
 {
     if [ $1 == "Super" ]; then
         $color_echo  "\033[0;32m"'     ___           ___           ___           ___           __         ___         ___      '"\033[0m"
@@ -265,7 +266,7 @@ print_repo()
         $color_echo  "\033[0;32m"'   \:\/:/  /     \:\/:/  /     \:\  \        \:\/:/  /     \/_/:/  /   '"\033[0m"
         $color_echo  "\033[0;32m"'    \::/  /       \::/  /       \:\__\        \::/  /        /:/  /    '"\033[0m"
         $color_echo  "\033[0;32m"'     \/__/         \/__/         \/__/         \/__/         \/__/     '"\033[0m"
-        
+
     elif [ $1 == "tools" ]; then
         $color_echo  "\033[0;32m"'      ___           ___           ___                           ___      '"\033[0m"
         $color_echo  "\033[0;32m"'     /\__\         /\  \         /\  \                         /\__\     '"\033[0m"
@@ -278,23 +279,23 @@ print_repo()
         $color_echo  "\033[0;32m"'       \:\  \    \:\/:/  /     \:\/:/  /       \:\/:/  /     \/_/:/  /   '"\033[0m"
         $color_echo  "\033[0;32m"'        \:\__\    \::/  /       \::/  /         \::/  /        /:/  /    '"\033[0m"
         $color_echo  "\033[0;32m"'         \/__/     \/__/         \/__/           \/__/         \/__/     '"\033[0m"
-    
+
     elif [ $1 == "documentation" ]; then
         $color_echo  "\033[0;32m"'                    ___           ___           ___      '"\033[0m"
-        $color_echo  "\033[0;32m"'     _____         /\  \         /\__\         /\__\     '"\033[0m" 
+        $color_echo  "\033[0;32m"'     _____         /\  \         /\__\         /\__\     '"\033[0m"
         $color_echo  "\033[0;32m"'    /::\  \       /::\  \       /:/  /        /:/ _/_    '"\033[0m"
         $color_echo  "\033[0;32m"'   /:/\:\  \     /:/\:\  \     /:/  /        /:/ /\  \   '"\033[0m"
         $color_echo  "\033[0;32m"'  /:/  \:\__\   /:/  \:\  \   /:/  /  ___   /:/ /::\  \  '"\033[0m"
         $color_echo  "\033[0;32m"' /:/__/ \:|__| /:/__/ \:\__\ /:/__/  /\__\ /:/_/:/\:\__\ '"\033[0m"
         $color_echo  "\033[0;32m"' \:\  \ /:/  / \:\  \ /:/  / \:\  \ /:/  / \:\/:/ /:/  / '"\033[0m"
-        $color_echo  "\033[0;32m"'  \:\  /:/  /   \:\  /:/  /   \:\  /:/  /   \::/ /:/  /  '"\033[0m" 
+        $color_echo  "\033[0;32m"'  \:\  /:/  /   \:\  /:/  /   \:\  /:/  /   \::/ /:/  /  '"\033[0m"
         $color_echo  "\033[0;32m"'   \:\/:/  /     \:\/:/  /     \:\/:/  /     \/_/:/  /   '"\033[0m"
         $color_echo  "\033[0;32m"'    \::/  /       \::/  /       \::/  /        /:/  /    '"\033[0m"
         $color_echo  "\033[0;32m"'     \/__/         \/__/         \/__/         \/__/     '"\033[0m"
 
     fi
 
-    $color_echo 
+    $color_echo
 }
 
 main
