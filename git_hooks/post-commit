@@ -4,10 +4,10 @@
 # Currently, this script checks the status of the current branch and prompts
 # the user to track their branch if it is untracked and to push if >10 unpushed commits
 # exist.
-# if additional precommit functionality is requested, it should be added to this script.
+# if additional postcommit functionality is requested, it should be added to this script.
 #
 # This script is inserted in the .git/hooks directory of repositories setup with
-# configure_rosetta_repo.sh
+# update_hooks.sh
 
 #is the current branch tracked?
 git_upstream=`git rev-parse --symbolic-full-name HEAD@{u} 2> /dev/null`
@@ -21,7 +21,7 @@ if [ ! $upstream_status -eq 0 ]; then
     echo "With the following command:"
     echo ""
     echo "git push -u origin $branch_name"
-    echo "if this branch has already bin pushed, enable tracking with"
+    echo "if this branch has already been pushed, enable tracking with"
     echo ""
     echo "git branch --set-upstream $branch_name origin/$branch_name"
     echo "***********************************************************"

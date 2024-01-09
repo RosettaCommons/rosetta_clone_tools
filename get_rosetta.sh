@@ -9,23 +9,25 @@
 # (c) Questions about this can be addressed to University of Washington UW
 # (c) TechTransfer, email: license@u.washington.edu.
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Brief:   This shell script clones repositories from GitHub and configures   #
-#          them to play nicely with how our community is organized.           #
+# Brief:   This shell script clones repositories from GitHub and              #
+#          provides some potentially useful configuation for developers       #
+#          Note that use of this script is optional,                          #
+#          and not required for Rosetta development                           #
+#          It should also not be used if you're just _using_ Rosetta.         #
 #                                                                             #
 # Note: Before you begin,                                                     #
-#       1) Sign the developers' agreement and have your PI email Oriel        #
-#          Goldstein (oriel.goldstein@mail.huji.ac.il) granting you explicit  #
-#          read and/or write access.  See the wiki for details.               #
-#       2) Create a GitHub account and tell Oriel Goldstein                   #
-#          (oriel.goldstein@mail.huji.ac.il) your GitHub user name            #
-#          so that he can add you to the RosettaCommons account, and          #
-#       3) Set up SSH keys with GitHub following the                          #
+#       1) Create a GitHub account                                            #
+#       2) Set up SSH keys with GitHub following the                          #
 #          instructions here                                                  #
 #          https://help.github.com/articles/generating-ssh-keys               #
+#       3) Sign the developers' agreement and fill out the onboarding form.   #
+#          See the wiki for details.                                          #
+#       4) Create a Fork of Rosetta on Github under your username             #
 #                                                                             #
 # Authors:  Brian D. Weitzner (brian.weitzner@gmail.com)                      #
 #           Tim Jacobs (TimJacobs2@gmail.com)                                 #
 #           Sam DeLuca (sam@decarboxy.com)                                    #
+#           Rocco Moretti (rmorettiase@gmail.com)                             #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Global data
@@ -37,11 +39,9 @@ commit_template="commit_template.txt"
 # Ensure the output is colorized to make it a little easier to read
 color_echo="echo -e"
 
-# If you'd only like one or two of the repositories, you can specify which one(s)
-# on the command line.  Otherwise, all three will be cloned.
+# You can specify a particular repo, but only the `rosetta` repo is relevant for a direct clone.
 if [ -z $1 ]; then
-    #repos=(main demos tools documentation)
-    repos=(main)
+    repos=(rosetta)
 else
     repos=("$@")
 fi
@@ -59,14 +59,29 @@ main()
     $color_echo  "\033[0;32mTo specify specific repositories, pass them as arguments to this script\033[0m"
     $color_echo  "\033[0;32m\033[0m"
 
+    while true; do
+	$color_echo "\033[0;32mThis script isn't necessary to use Rosetta.\033[0m"
+	$color_echo "\033[0;32mYou can go to https://github.com/RosettaCommons/rosetta and use standard Git tools.\033[0m"
+	$color_echo "\033[0;32mThis script is intended for Rosetta developers, and even then isn't needed.\033[0m"
+	$color_echo "\033[0;32mAt best this script provides some convenience utilities.\033[0m"
+        read -p "Do you want to continue?.  [y/n] (Default: NO)? " yn
+        case $yn in
+            [Yy] | [Yy][Ee][Ss] ) break;;
+            [Nn] | [Nn][Oo] | "" ) exit;;
+            * ) $color_echo  "Please answer yes (y) or no (n).";;
+        esac
+    done
+
+    $color_echo
     $color_echo  "\033[0;34mMake sure you have already:\033[0m"
     $color_echo  "\033[0;34m   1)  Signed the developer agreement,\033[0m"
     $color_echo  "\033[0;34m   2)  Created your GitHub account,\033[0m"
-    $color_echo  "\033[0;34m   3)  Emailed your GitHub user name to Oriel Goldstein (oriel.goldstein@mail.huji.ac.il),\033[0m"
+    $color_echo  "\033[0;34m   3)  Filled out the onboarding form,\033[0m"
     $color_echo  "\033[0;34m   4a) Set up SSH keys to GitHub on your machine following the instructions here:\033[0m"
     $color_echo  "\033[0;34m       https://help.github.com/articles/generating-ssh-keys\033[0m"
     $color_echo  "\033[0;34m   4b) Or, to use HTTPS, followed the instructions for password caching here:\033[0m"
     $color_echo  "\033[0;34m       https://help.github.com/articles/set-up-git\033[0m"
+    $color_echo  "\033[0;34m   5)  Created a fork of the RosettaCommons/rosetta repository,\033[0m"
     $color_echo
     read -p "Please enter your GitHub username: " github_user_name
     $color_echo  "\n"
@@ -108,7 +123,7 @@ main()
 
 hooks_config()
 {
-    read -p "Where is your copy of Rosetta? The default is the current directory (i.e. ./Rosetta exits): " path
+    read -p "Where is your copy of Rosetta? The default is the current directory (i.e. ./rosetta exits): " path
     if [ -z $path ]; then
         path="."
     fi
@@ -151,54 +166,35 @@ clone_hooks_config()
     while true; do
         read -p "Would you like to clone over SSH (s) or HTTPS (h) - Note that SSH keys are required for cloning over SSH (Default: SSH)? " protocol
         case $protocol in
-            [Ss] | [Ss][Ss][Hh] | "" ) url=git@github.com:RosettaCommons/; break;;
-            [Hh] | [Hh][Tt][Tt][Pp][Ss] ) url=https://$github_user_name@github.com/RosettaCommons/; break;;
+            [Ss] | [Ss][Ss][Hh] | "" ) url=git@github.com:${github_user_name}/; break;;
+            [Hh] | [Hh][Tt][Tt][Pp][Ss] ) url=https://$github_user_name@github.com/${github_user_name}/; break;;
         *) $color_echo  "Please answer SSH (s) or HTTPS (h).";;
 		esac
     done
 
-	while true; do
-		read -p "Would you like to clone all repositories in parallel? [y/n] (Default: YES)? " yn
-        case $yn in
-            [Yy] | [Yy][Ee][Ss] | "" ) parallel=true; break;;
-            [Nn] | [Nn][Oo] ) parallel=false; break;;
-        * ) $color_echo  "Please answer yes (y) or no (n).";;
-        esac
-    done
-
-    if [ ! -d $path/Rosetta ]; then
-        mkdir $path/Rosetta
+    if [ ! -d $path/ ]; then
+        mkdir $path/
     fi
 
     download_helper_scripts
 
     # Prevent the user from having to repeatedly enter his/her password
-	git config --global credential.helper 'cache --timeout=3600'
-
-	if $parallel; then
- 	   for repo in "${repos[@]}"; do
-        	(configure_repo $repo
-        	bash ../$update_hooks .
-        	bash ../$update_config . $github_user_name
-        	cd $starting_dir) &
-    	done
-	else
-  	   for repo in "${repos[@]}"; do
-         	(configure_repo $repo
-         	bash ../$update_hooks .
-        	bash ../$update_config . $github_user_name
-         	cd $starting_dir)
-     	done
-	fi
+    git config --global credential.helper 'cache --timeout=3600'
+    
+    for repo in "${repos[@]}"; do
+     	(configure_repo $repo
+     	bash ../$update_hooks .
+    	bash ../$update_config . $github_user_name
+     	cd $starting_dir)
+    done
 
     wait
 }
 
 download_helper_scripts() {
-    path="$path/Rosetta/"
+    path="$path"
 
     $color_echo  "\033[0;34mConfiguring...\033[0m"
-    print_repo Super
 
     starting_dir=$PWD
 
@@ -217,6 +213,7 @@ configure_repo()
     hash git >/dev/null && /usr/bin/env git clone $url$1.git $path$1 || {
         $color_echo  "Can't clone! It's likely that git is not installed and/or you are cloning over SSH without SSH keys setup."
         $color_echo  "See https://help.github.com/articles/error-permission-denied-publickey for instructions on how to setup SSH keys for GitHub."
+	$color_echo  "Alternatively, it may be that your forked repository $url$1.git does not exist yet."
         exit
     }
 
@@ -229,6 +226,19 @@ configure_repo()
 print_repo()
 {
     if [ $1 == "Super" ]; then
+        $color_echo  "\033[0;32m"'     ___           ___           ___           ___           __         ___         ___      '"\033[0m"
+        $color_echo  "\033[0;32m"'    /\  \         /\  \         /\__\         /\__\         /\__\      /\__\       /\  \     '"\033[0m"
+        $color_echo  "\033[0;32m"'   /::\  \       /::\  \       /:/ _/_       /:/ _/_       /:/  /     /:/  /      /::\  \    '"\033[0m"
+        $color_echo  "\033[0;32m"'  /:/\:\__\     /:/\:\  \     /:/ /\  \     /:/ /\__\     /:/__/     /:/__/      /:/\:\  \   '"\033[0m"
+        $color_echo  "\033[0;32m"' /:/ /:/  /    /:/  \:\  \   /:/ /::\  \   /:/ /:/ _/_   /::\  \    /::\  \     /:/ /::\  \  '"\033[0m"
+        $color_echo  "\033[0;32m"'/:/_/:/__/___ /:/__/ \:\__\ /:/_/:/\:\__\ /:/_/:/ /\__\ /:/\:\  \  /:/\:\  \   /:/_/:/\:\__\ '"\033[0m"
+        $color_echo  "\033[0;32m"'\:\/:::::/  / \:\  \ /:/  / \:\/:/ /:/  / \:\/:/ /:/  / \/__\:\  \ \/__\:\  \  \:\/:/  \/__/ '"\033[0m"
+        $color_echo  "\033[0;32m"' \::/~~/~~~~   \:\  /:/  /   \::/ /:/  /   \::/_/:/  /       \:\  \     \:\  \  \::/__/      '"\033[0m"
+        $color_echo  "\033[0;32m"'  \:\~~\        \:\/:/  /     \/_/:/  /     \:\/:/  /         \:\  \     \:\  \  \:\  \      '"\033[0m"
+        $color_echo  "\033[0;32m"'   \:\__\        \::/  /        /:/  /       \::/  /           \:\__\     \:\__\  \:\__\     '"\033[0m"
+        $color_echo  "\033[0;32m"'    \/__/         \/__/         \/__/         \/__/             \/__/      \/__/   \/__/     '"\033[0m"
+
+    elif [ $1 == "rosetta" ]; then
         $color_echo  "\033[0;32m"'     ___           ___           ___           ___           __         ___         ___      '"\033[0m"
         $color_echo  "\033[0;32m"'    /\  \         /\  \         /\__\         /\__\         /\__\      /\__\       /\  \     '"\033[0m"
         $color_echo  "\033[0;32m"'   /::\  \       /::\  \       /:/ _/_       /:/ _/_       /:/  /     /:/  /      /::\  \    '"\033[0m"

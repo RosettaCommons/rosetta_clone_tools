@@ -1,9 +1,16 @@
 Rosetta Clone Tools
 ===================
-### A public repository with scripts and tools for cloning and setting up RosettaCommons repositories. 
+A public repository with scripts and tools for cloning and setting up RosettaCommons repositories. 
+
+### This repository is mostly a historical artifact.
+
+For most purposes, you can just simply clone https://github.com/RosettaCommons/rosetta as you would any other Github repository.
+
+These scripts were primarily needed in the past, when we had a different organization of things.
 
 How to clone Rosetta
 --------------------
+
 ```
 curl -kL https://raw.github.com/RosettaCommons/rosetta_clone_tools/master/get_rosetta.sh > get_rosetta.sh && bash get_rosetta.sh
 ```
@@ -11,6 +18,10 @@ will clone rosetta and set it up.  Follow all instructions when prompted by the 
 
 Brief descriptions of files in this repository
 ----------------------------------------------
+
+###rosetta_compiler_test.py###
+
+A Python script to help debug whether your compilation environment supports C++11 sufficiently to compile Rosetta.
 
 ###*get_rosetta.sh*###
 A bash script that is used to get a copy of the Rosetta source code.
