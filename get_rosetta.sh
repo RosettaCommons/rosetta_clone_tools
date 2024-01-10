@@ -109,6 +109,9 @@ main()
     	git config --global core.autocrlf true
     fi
 
+    $color_echo  "\033[0;34mDeleting commit message template...\033[0m"
+    rm $path/.$commit_template
+
     $color_echo  "\033[0;34mDeleting update_hooks script...\033[0m"
     rm $path/$update_hooks
 

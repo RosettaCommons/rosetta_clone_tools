@@ -2,10 +2,10 @@
 
 if [ "$2"  == "" -o "$2" == "merge" ]; then
   # Allow people to disable this by deleting the .commit_template.txt from the directory.
-  if [ -f ../.commit_template.txt ]; then
-    cat ../.commit_template.txt > $1
+  if [ -f .commit_template.txt ]; then
+    cat .commit_template.txt > $1
     echo >> $1
-    git status | grep '^#' >> $1
+    git status | sed 's/^/#/' >> $1
   fi
 fi
 
