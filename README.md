@@ -8,13 +8,16 @@ For most purposes, you can just simply clone https://github.com/RosettaCommons/r
 
 These scripts were primarily needed in the past, when we had a different organization of things.
 
-How to clone Rosetta
---------------------
+How to clone Rosetta for development
+------------------------------------
 
 ```
 curl -kL https://raw.github.com/RosettaCommons/rosetta_clone_tools/master/get_rosetta.sh > get_rosetta.sh && bash get_rosetta.sh
 ```
-will clone rosetta and set it up.  Follow all instructions when prompted by the script
+will clone rosetta and set it up.  Follow all instructions when prompted by the script.
+
+Note that we assume that you already have a fork of the RosettaCommons/rosetta repo in your own workspace.
+
 
 Brief descriptions of files in this repository
 ----------------------------------------------
