@@ -192,7 +192,7 @@ clone_hooks_config()
 }
 
 download_helper_scripts() {
-    path="$path"
+    path="$path/"
 
     $color_echo  "\033[0;34mConfiguring...\033[0m"
 
