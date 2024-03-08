@@ -28,6 +28,19 @@
 #           Sam DeLuca (sam@decarboxy.com)                                    #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
+color_echo="echo -e"
+
+$color_echo  "\033[0;32m"'*******************************************************************************************************************'"\033[0m"
+$color_echo  "\033[0;32m"'*                                                                                                                 *'"\033[0m"
+$color_echo  "\033[0;32m"'*  This script is no longer useful.                                                                               *'"\033[0m"
+$color_echo  "\033[0;32m"'*  Clone directly from https://github.com/RosettaCommons/rosetta                                                  *'"\033[0m"
+$color_echo  "\033[0;32m"'*  Or follow https://github.com/RosettaCommons/documentation/blob/master/internal_documentation/GithubWorkflow.md *'"\033[0m"
+$color_echo  "\033[0;32m"'*                                                                                                                 *'"\033[0m"
+$color_echo  "\033[0;32m"'*******************************************************************************************************************'"\033[0m"
+
+exit
+####################################################################################
+
 # Global data
 tools_url="https://github.com/RosettaCommons/rosetta_clone_tools/raw/master"
 update_hooks="update_hooks.sh"
